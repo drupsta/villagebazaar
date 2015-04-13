@@ -21,7 +21,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 	$this->data['logged'] = sprintf($this->language->get('text_logged'), $this->user->getId());
 		$_SESSION['userid']=$this->user->getId();
-		
+		$this->data['c_category']=$this->model_catalog_product->get_ccategory();
                
                 if(!isset($_POST['refresh']) && !isset($_POST['logout']) && !isset($_POST['home']))
                 {
