@@ -322,8 +322,7 @@ $tax="Pricing policy not set. Please check with administrator !!!";
               <td><select name="currency">   
                                  
                       <?php
-$curr_val=array("1"=>"----Please Select------","INR" => "INR (Indian Rupee)","Bangla" => "BDT (Bangladesh Taka)","Nepal" => "NPR (Nepalese Rupee)","Bhutan" => "BTN 
-(Bhutan Ngultrum)");
+$curr_val=array("1"=>"----Please Select------","Bhutan" => "BTN (Bhutan Ngultrum)");
 foreach($curr_val as $cval=>$cval1)
                      {
                      if($cval==$_POST['currency'])
