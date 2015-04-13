@@ -147,23 +147,15 @@ $tax="Pricing policy not set. Please check with administrator !!!";
             </tr>  --> <tr>
           <td><span class="required">*</span> <?php echo $entry_category;  ?></td>
            <td><select name="sel_category" id="sel_category"> 
-                  <?php if (!isset($_REQUEST['product_id'])) {  ?>
-              <option value=""><?php echo $text_select; ?></option>
+                 
+              <option value="" selected><?php echo $text_select; ?></option>
               <?php
-						$qry="SELECT name, c.category_id FROM oc_category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id=0 and status=1 order by name";
-						$rs = mysql_query($qry);
-						while($row=mysql_fetch_array($rs))
-						{
-						if($category_id==$row[1])
-						{
-						echo "<option value='$row[1]' selected>$row[0]</option>";
-						}
-						else
-						{
-						echo "<option value='$row[1]' >$row[0]</option>";
-						}
-						}		
-						?>
+			foreach($c_category->rows as $result)
+			{
+				echo "<option value='".$result['category_id']."'>".$result['name']."</option>";
+                        }   
+                        		
+		?>
             </select>
               <!--<input align="left" type="submit" name="show" value="Show Subcategory" class="button" />-->
            <?php if ($error_category) { ?>
