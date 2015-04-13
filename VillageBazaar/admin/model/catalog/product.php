@@ -776,5 +776,12 @@ $_SESSION['userid']=$this->user->getId();
 
 		return $query->row['name'];
 	}
+	public function get_ccategory()
+		{
+			
+			$query="SELECT name, c.category_id FROM " . DB_PREFIX . "oc_category_description cd ,oc_category c where 		  cd.`category_id`=c.`category_id` and parent_id=0 and status=1 order by name";
+			return $this->db->query($query);
+			
+		}
 }
 ?>
