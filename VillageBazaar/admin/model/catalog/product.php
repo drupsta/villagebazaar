@@ -777,11 +777,19 @@ $_SESSION['userid']=$this->user->getId();
 		return $query->row['name'];
 	}
 	public function get_ccategory()
-		{
+	{
 			
 			$query="SELECT name, c.category_id FROM " . DB_PREFIX . "category_description cd ,oc_category c where 		  cd.`category_id`=c.`category_id` and parent_id=0 and status=1 order by name";
 			return $this->db->query($query);
 			
-		}
+	}
+	public function get_subcategory($category_id)
+	{
+			
+			$query="SELECT name, c.category_id  as category_id FROM ".DB_PREFIX."category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and  	             parent_id='".$category_id."'";
+			return $this->db->query($query);
+			
+	}
+		
 }
 ?>
