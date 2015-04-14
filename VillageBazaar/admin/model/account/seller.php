@@ -1,51 +1,16 @@
 <?php
 class ModelAccountSeller extends Model {
-	public function addCustomer($data) 
-	{		
-//$this->db->query("INSERT INTO `" . DB_PREFIX . "user` SET username = '" . $this->db->escape(ucwords($data['username'])) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "',telephone = '" . $this->db->escape($data['telephone']) . "',landline = '" . $this->db->escape($data['landline']) . "',address_1 = '" . $this->db->escape($data['address_1']) . "',address_2 = '" . $this->db->escape($data['address_2']) . "',city = '" . $this->db->escape($data['city']) . "',postcode = '" . $this->db->escape($data['postcode']) . "',country_id = '" . $this->db->escape($data['country_id']) . "',zone_id = '" . $this->db->escape($data['zone_id']) . "', user_group_id='11',status = '1',date_added = NOW()");
-$this->db->query("INSERT INTO `" . DB_PREFIX . "user` SET username = '" . $this->db->escape(ucwords($data['username'])) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "',telephone = '" . $this->db->escape($data['telephone']) . "',landline = '" . $this->db->escape($data['landline']) . "',address_1 = '" . $this->db->escape($data['address_1']) . "',csc_id = '" . $this->db->escape($data['csc_id']) . "',city = '" . $this->db->escape($data['city']) . "',postcode = '" . $this->db->escape($data['postcode']) . "',country_id = '" . $this->db->escape($data['country_id']) . "',zone_id = '" . $this->db->escape($data['zone_id']) . "', user_group_id='11',status = '1',date_added = NOW()");
-//Added by Astha 8th July 2014
-//$query="INSERT INTO " . DB_PREFIX . "customer SET store_id = '0', username = '" . $this->db->escape(ucwords($data['username'])) . "', firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "',  salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '1', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '1', date_added = NOW()";
-$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '0', username = '" . $this->db->escape(ucwords($data['username'])) . "', firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "',  salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '1', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '1', date_added = NOW()");
-$customer_id = $this->db->getLastId();
-$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])). "',  address_1 = '" . $this->db->escape($data['address_1']) . "',  city = '" . $this->db->escape(ucwords($data['city'])) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
-		//$customer_id = $this->db->getLastId();
-$address_id = $this->db->getLastId();
-$this->db->query("UPDATE " . DB_PREFIX . "customer SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+	public function addCustomer($data){		
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "user` SET username = '" . $this->db->escape(ucwords($data['username'])) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "',telephone = '" . $this->db->escape($data['telephone']) . "',landline = '" . $this->db->escape($data['fixedline']) . "',address_1 = '" . $this->db->escape($data['address_1']) . "',csc_id = '" . $this->db->escape($data['csc_id']) . "',city = '" . $this->db->escape($data['city']) . "',postcode = '" . $this->db->escape($data['postcode']) . "',country_id = '" . $this->db->escape($data['country_id']) . "',zone_id = '" . $this->db->escape($data['zone_id']) . "', user_group_id='11',status = '1',date_added = NOW()");
+		//Added by Astha 8th July 2014
 
-//$salt = substr(md5(uniqid(rand(), true)), 0, 31);
-//$char=$this->db->escape($data['password']).$salt;
-//$pwd=md5($char);
-//$password=$pwd.":".$salt;
-//	
-//$cn=mysql_connect("localhost","sanjaysaxena","sanj@y!@#");
-//mysql_select_db("indiasasec1");
-//$qry="insert into jos_users(name,username,email,password,block) values('". $this->db->escape($data['firstname'])."','".$this->db->escape(ucwords($data['username']))."','".$this->db->escape($data['email'])."','".$password."',0)";
-//mysql_query($qry);
-//
-//$qry="insert into  jos_user_usergroup_map(user_id,group_id) values(".mysql_insert_id().",2)"; 
-//mysql_query($qry);
-//
-//
-//$cn=mysql_connect("localhost","sanjaysaxena","sanj@y!@#");
-//mysql_select_db("moodle");
-//
-//
-//
-//$pwd=$this->db->escape($data['password']);
-//
-////address,city,country
-//$qry="insert into  mdl_user(auth,confirmed,policyagreed,deleted,mnethostid,username,password,firstname,lastname,email) values('manual',1,0,0,1,'".$this->db->escape(ucwords($data['username']))."','".md5($pwd)."','". $this->db->escape($data['firstname'])."','" . $this->db->escape($data['lastname']) . "','".$this->db->escape($data['email'])."')";
-//mysql_query($qry);
-// 
-//
-//$qry="insert into jos_users(name,username,email,password,block) values('". $this->db->escape($data['firstname'])."','".$this->db->escape(ucwords($data['username']))."','".$this->db->escape($data['email'])."','".$password."',0)";
-//mysql_query($qry);
-//
-//
-// 
-//$cn=mysql_connect("localhost","sanjaysaxena","sanj@y!@#");
-//mysql_select_db("villagebazaar");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '0', username = '" . $this->db->escape(ucwords($data['username'])) . "', firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "',  salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '1', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '1', date_added = NOW()");
+		$customer_id = $this->db->getLastId();
+		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])). "',  address_1 = '" . $this->db->escape($data['address_1']) . "',  city = '" . $this->db->escape(ucwords($data['city'])) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
+		//$customer_id = $this->db->getLastId();
+		$address_id = $this->db->getLastId();
+		$this->db->query("UPDATE " . DB_PREFIX . "customer SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+
 	}	
 
 	

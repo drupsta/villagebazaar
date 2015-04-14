@@ -344,13 +344,6 @@ $('select[name=\'country_id\']').bind('change', function() {
 
 $('select[name=\'country_id\']').trigger('change');
 //--></script> 
-<script type="text/javascript"><!--
-$(document).ready(function() {
-	$('.colorbox').colorbox({
-		width: 640,
-		height: 480
-	});
-});
-//--></script> 
+
 
 <?php echo $footer; ?>

@@ -278,6 +278,7 @@ class ControllerLocalisationcsc extends Controller {
 		$this->data['entry_country'] = $this->language->get('entry_country');
 		$this->data['entry_zone'] = $this->language->get('entry_zone');
 		$this->data['text_select'] = $this->language->get('text_select');
+		$this->data['text_select_dzongkhag'] = $this->language->get('text_select_dzongkhag');
 		$this->data['text_none'] = $this->language->get('text_none');
 
 		$this->data['button_save'] = $this->language->get('button_save');
@@ -370,9 +371,7 @@ class ControllerLocalisationcsc extends Controller {
 			$this->data['country_id'] = '';
 		}
 		
-		
-		
-		
+				
 		if (isset($this->request->post['zone_id'])) {
 			$this->data['zone_id'] = $this->request->post['zone_id'];
 		} elseif (!empty($csc_info)) {
@@ -382,8 +381,7 @@ class ControllerLocalisationcsc extends Controller {
 		}
 		
 		
-			
-		if (isset($this->request->post['zone_name'])) {
+		if(isset($this->request->post['zone_name'])) {
 			$this->data['zone_name'] = $this->request->post['zone_name'];
 		} elseif (!empty($csc_info)) {
 			$this->data['zone_name'] = $csc_info['zone_name'];
@@ -391,10 +389,8 @@ class ControllerLocalisationcsc extends Controller {
 			$this->data['zone_name'] = '';
 		}
 		
-		
-		
-		
-			if (isset($this->error['country'])) {
+				
+		if (isset($this->error['country'])) {
 			$this->data['error_country'] = $this->error['country'];
 		} else {
 			$this->data['error_country'] = '';
@@ -409,14 +405,6 @@ class ControllerLocalisationcsc extends Controller {
 		$this->load->model('localisation/country');
 		 
         $this->data['countries'] = $this->model_localisation_country->getCountries();
-
-//		if (isset($this->request->post['zone_to_geo_zone'])) {
-//			$this->data['zone_to_geo_zones'] = $this->request->post['zone_to_geo_zone'];
-//		} elseif (isset($this->request->get['geo_zone_id'])) {
-//			$this->data['zone_to_geo_zones'] = $this->model_localisation_csc->getZoneToGeoZones($this->request->get['geo_zone_id']);
-//		} else {
-//			$this->data['zone_to_geo_zones'] = array();
-//		}
 
 		$this->template = 'localisation/csc.tpl';
 		$this->children = array(
@@ -476,29 +464,11 @@ class ControllerLocalisationcsc extends Controller {
 		}
 	}
 	
-	/*public function zone() {
-		$output = '<option value="0">' . $this->language->get('text_all_zones') . '</option>';
-		
-		$this->load->model('localisation/zones');
-		
-		$results = $this->model_localisation_zone->getZonesByCountryId($this->request->get['country_id']);
-
-		foreach ($results as $result) {
-			$output .= '<option value="' . $result['zone_id'] . '"';
-
-			if ($this->request->get['zone_id'] == $result['zone_id']) {
-				$output .= ' selected="selected"';
-			}
-
-			$output .= '>' . $result['name'] . '</option>';
-		}
-
-		$this->response->setOutput($output);
-	} 		*/
-
+	
  public function getState() {		
-		//echo "testttt";
-		$output = '<option value="0">' . $this->language->get('text_all_zones') . '</option>';
+		
+ 		$this->language->load('localisation/csc');
+		$output = '<option value="0">' . $this->language->get('text_all_dzongkhags') . '</option>';
 		
 		$this->load->model('localisation/zone');
 		
@@ -506,16 +476,10 @@ class ControllerLocalisationcsc extends Controller {
 
 		foreach ($results as $result) {
 			$output .= '<option value="' . $result['zone_id'] . '"';
-
-			if ($this->request->get['zone_id'] == $result['zone_id']) {
-				$output .= ' selected="selected"';
-			}
-
 			$output .= '>' . $result['name'] . '</option>';
 		}
 
-		$this->response->setOutput($output);
-		
+		$this->response->setOutput($output);		
 		
 	}
 } 

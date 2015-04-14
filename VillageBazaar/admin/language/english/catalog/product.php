@@ -78,6 +78,7 @@ $_['entry_required']         = 'Required:';
 $_['entry_status']           = 'Status:';
 $_['entry_sort_order']       = 'Sort Order:';
 $_['entry_category']         = 'Categories:';
+$_['entry_subcategory']      = 'Subcategories:';
 $_['entry_filter']           = 'Filters:<br /><span class="help">(Select)</span>';
 $_['entry_download']         = 'Downloads:<br /><span class="help">(Select)</span>';
 $_['entry_related']          = 'Related Products:<br /><span class="help">(Select)</span>';

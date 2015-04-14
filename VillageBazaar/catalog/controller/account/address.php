@@ -62,7 +62,7 @@ class ControllerAccountAddress extends Controller {
 			if (isset($this->session->data['shipping_address_id']) && ($this->request->get['address_id'] == $this->session->data['shipping_address_id'])) {
 				$this->session->data['shipping_country_id'] = $this->request->post['country_id'];
 				$this->session->data['shipping_zone_id'] = $this->request->post['zone_id'];
-				$this->session->data['shipping_postcode'] = $this->request->post['postcode'];
+				//$this->session->data['shipping_postcode'] = $this->request->post['postcode'];
 				
 				unset($this->session->data['shipping_method']);	
 				unset($this->session->data['shipping_methods']);
@@ -220,9 +220,9 @@ class ControllerAccountAddress extends Controller {
 		$this->data['back'] = $this->url->link('account/account', '', 'SSL');
 				
                 //Added on 23 Sep 2014
-                $this->redirect($this->url->link('account/address/update', 'address_id=' . $result['address_id'], 'SSL'));				
+        $this->redirect($this->url->link('account/address/update', 'address_id=' . $result['address_id'], 'SSL'));				
 		////
-                if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/address_list.tpl')) {
+        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/address_list.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/account/address_list.tpl';
 		} else {
 			$this->template = 'default/template/account/address_list.tpl';
@@ -292,9 +292,12 @@ class ControllerAccountAddress extends Controller {
     	$this->data['entry_address_1'] = $this->language->get('entry_address_1');
     	$this->data['entry_address_2'] = $this->language->get('entry_address_2');
     	$this->data['entry_postcode'] = $this->language->get('entry_postcode');
+    	$this->data['entry_postoffice'] = $this->language->get('entry_postoffice');
+    	$this->data['entry_geog'] = $this->language->get('entry_geog');
     	$this->data['entry_city'] = $this->language->get('entry_city');
     	$this->data['entry_country'] = $this->language->get('entry_country');
     	$this->data['entry_zone'] = $this->language->get('entry_zone');
+    	$this->data['entry_dungkhag'] = $this->language->get('entry_dungkhag');
     	$this->data['entry_default'] = $this->language->get('entry_default');
 
     	$this->data['button_continue'] = $this->language->get('button_continue');
@@ -336,6 +339,13 @@ class ControllerAccountAddress extends Controller {
 			$this->data['error_city'] = '';
 		}
 		
+		if (isset($this->error['geog'])) {
+			$this->data['error_geog'] = $this->error['geog'];
+		} else {
+			$this->data['error_geog'] = '';
+		}
+		
+		
 		if (isset($this->error['postcode'])) {
     		$this->data['error_postcode'] = $this->error['postcode'];
 		} else {
@@ -347,7 +357,7 @@ class ControllerAccountAddress extends Controller {
 		} else {
 			$this->data['error_country'] = '';
 		}
-                if (isset($this->error['price_dur'])) {
+        if (isset($this->error['price_dur'])) {
 			$this->data['error_cec'] = $this->error['price_dur'];
 		} else {
 			$this->data['error_cec'] = '';
@@ -357,7 +367,11 @@ class ControllerAccountAddress extends Controller {
 		} else {
 			$this->data['error_zone'] = '';
 		}
-		
+		if (isset($this->error['dungkhag'])) {
+			$this->data['error_dungkhag'] = $this->error['dungkhag'];
+		} else {
+			$this->data['error_dungkhag'] = '';
+		}
 		if (!isset($this->request->get['address_id'])) {
     		$this->data['action'] = $this->url->link('account/address/insert', '', 'SSL');
 		} else {
@@ -456,9 +470,15 @@ class ControllerAccountAddress extends Controller {
       		$this->data['city'] = '';
     	}
         
+    	if (isset($this->request->post['geog'])) {
+    		$this->data['geog'] = $this->request->post['geog'];
+    	} elseif (!empty($address_info)) {
+    		$this->data['geog'] = $address_info['geog'];
+    	} else {
+    		$this->data['geog'] = '';
+    	}
         
-        
-if (isset($this->request->post['postoffice'])) {
+		if (isset($this->request->post['postoffice'])) {
       		$this->data['postoffice'] = $this->request->post['postoffice'];
     	} elseif (!empty($address_info)) {
 			$this->data['postoffice'] = $address_info['postoffice'];
@@ -466,31 +486,21 @@ if (isset($this->request->post['postoffice'])) {
       		$this->data['postoffice'] = '';
     	}	
 
-    	if (isset($this->request->post['tehsildar'])) {
-      		$this->data['tehsildar'] = $this->request->post['tehsildar'];
-    	} elseif (!empty($address_info)) {
-			$this->data['tehsildar'] = $address_info['tehsildar'];			
-		} else {
-      		$this->data['tehsildar'] = '';
-    	}
-
-    	if (isset($this->request->post['govtschool'])) {
-      		$this->data['govtschool'] = $this->request->post['govtschool'];
-    	} elseif (!empty($address_info)) {
-			$this->data['govtschool'] = $address_info['govtschool'];
-		} else {
-      		$this->data['govtschool'] = '';
-    	}
-        
-        
-        
-        
+    	          
     	if (isset($this->request->post['country_id'])) {
       		$this->data['country_id'] = $this->request->post['country_id'];
     	}  elseif (!empty($address_info)) {
       		$this->data['country_id'] = $address_info['country_id'];			
     	} else {
       		$this->data['country_id'] = $this->config->get('config_country_id');
+    	}
+    	
+    	if (isset($this->request->post['dungkhag_id'])) {
+    		$this->data['dungkhag_id'] = $this->request->post['dungkhag_id'];
+    	}  elseif (!empty($address_info)) {
+    		$this->data['dungkhag_id'] = $address_info['dungkhag_id'];
+    	} else {
+    		$this->data['country_id'] = '';
     	}
 
     	if (isset($this->request->post['zone_id'])) {
@@ -513,10 +523,13 @@ if (isset($this->request->post['postoffice'])) {
 		$this->load->model('localisation/country');
 		
     	$this->data['countries'] = $this->model_localisation_country->getCountries();
-        
+    	
+    	$this->load->model('localisation/dungkhag');    	
+    	$this->data['dungkhags'] = $this->model_localisation_dungkhag->getDungkhags();
+    	        
         $this->load->model('account/seller');
 		$this->data['csc_details'] = $this->model_account_seller->cscDetails();
-
+		
     	if (isset($this->request->post['default'])) {
       		$this->data['default'] = $this->request->post['default'];
     	} elseif (isset($this->request->get['address_id'])) {
@@ -554,15 +567,15 @@ if (isset($this->request->post['postoffice'])) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
-    	if ((utf8_strlen($this->request->post['address_1']) < 3) || (utf8_strlen($this->request->post['address_1']) > 128)) {
+    	if ((utf8_strlen($this->request->post['address_1']) < 3) || (utf8_strlen($this->request->post['address_1']) > 250)) {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}
 
-    	if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 128)) {
+    	if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 50)) {
       		$this->error['city'] = $this->language->get('error_city');
     	}
 		
-		$this->load->model('localisation/country');
+		/* $this->load->model('localisation/country');
 		
 		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 		
@@ -577,7 +590,7 @@ if (isset($this->request->post['postoffice'])) {
 			if ($this->config->get('config_vat') && !empty($this->request->post['tax_id']) && (vat_validation($country_info['iso_code_2'], $this->request->post['tax_id']) == 'invalid')) {
 				$this->error['tax_id'] = $this->language->get('error_vat');
 			}		
-		}
+		} */
 		
     	if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');

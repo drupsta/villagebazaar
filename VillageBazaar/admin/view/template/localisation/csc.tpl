@@ -33,8 +33,8 @@
             <?php } ?></td>
         </tr>
         <tr>
-          <td><span class="required">*</span> <?php echo "Select State:"; ?></td>
-          <td><select name="zone_id" id="zone">
+          <td><span class="required">*</span> <?php echo $text_select_dzongkhag; ?></td>
+          <td><select name="zone_id" id="zone_id">
          
 		 <option value="<?php echo $zone_id; ?>"></option>
         </select>
@@ -78,8 +78,8 @@ $.ajax({
         data: postForm,
         success: function (data)		
 		{
-		//alert(html);
-		$('#zone').html(data); 
+		
+		$('#zone_id').html(data); 
 		
        }
     });

@@ -109,9 +109,12 @@
                          <td class="left"><?php if ($prices['to_date']!='9999-12-31') {echo $prices['to_date'];}?></td>
                          <td class="left"><?php echo $prices['status']; ?></td>
                           
-              <td class="right"><?php if($prices['status']==1) { foreach ($prices['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php }} ?></td>
+              <td class="right">
+				<?php if($prices['status']==1) { 
+					foreach ($prices['action'] as $action) { ?>
+                		[ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
+                	<?php }
+				} ?></td>
             </tr>
             <?php } ?>
             <?php } else { ?>

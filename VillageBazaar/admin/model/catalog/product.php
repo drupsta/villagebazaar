@@ -3,10 +3,10 @@ class ModelCatalogProduct extends Model {
 	
 	public function addProduct($data) {
 	// session value add for individual seller
-$_SESSION['userid']=$this->user->getId();
+		$_SESSION['userid']=$this->user->getId();
 		//changed by Astha to add expiry date field		
-	//$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW()");
-	$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',product_type = '" . $this->db->escape($data['product_type']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW(), date_expiry = DATE_ADD(NOW(), INTERVAL (price_duration_id*30) DAY)");
+		//$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',product_type = '" . $this->db->escape($data['product_type']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW(), date_expiry = DATE_ADD(NOW(), INTERVAL (price_duration_id*30) DAY)");
 	
 		
 		$product_id = $this->db->getLastId();
@@ -776,20 +776,5 @@ $_SESSION['userid']=$this->user->getId();
 
 		return $query->row['name'];
 	}
-	public function get_ccategory()
-	{
-			
-			$query="SELECT name, c.category_id FROM " . DB_PREFIX . "category_description cd ,oc_category c where 		  cd.`category_id`=c.`category_id` and parent_id=0 and status=1 order by name";
-			return $this->db->query($query);
-			
-	}
-	public function get_subcategory($category_id)
-	{
-			
-			$query="SELECT name, c.category_id  as category_id FROM ".DB_PREFIX."category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and  	             parent_id='".$category_id."'";
-			return $this->db->query($query);
-			
-	}
-		
 }
 ?>

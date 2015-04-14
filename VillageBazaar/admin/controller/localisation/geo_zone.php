@@ -518,8 +518,9 @@ class ControllerLocalisationGeoZone extends Controller {
 	}
 	
 
- public function getState() {		
-		//echo "testttt";
+ public function getState() {	
+ 		$this->language->load('localisation/geo_zone');
+		
 		$output = '<option value="0">' . $this->language->get('text_all_zones') . '</option>';
 		
 		$this->load->model('localisation/zone');

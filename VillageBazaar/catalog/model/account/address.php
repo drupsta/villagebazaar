@@ -14,9 +14,9 @@ class ModelAccountAddress extends Model {
 	
 	public function editAddress($address_id, $data) {
 		//$this->db->query("UPDATE " . DB_PREFIX . "address SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', company = '" . $this->db->escape($data['company']) . "', company_id = '" . $this->db->escape(isset($data['company_id']) ? $data['company_id'] : '') . "', tax_id = '" . $this->db->escape(isset($data['tax_id']) ? $data['tax_id'] : '') . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
-            $this->db->query("UPDATE " . DB_PREFIX . "address SET firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', postcode = '" . $this->db->escape($data['postcode']) . "',postoffice = '" . $this->db->escape($data['postoffice']) . "', tehsildar = '" . $this->db->escape($data['tehsildar']) . "',govtschool = '" . $this->db->escape($data['govtschool']) . "', city = '" . $this->db->escape($data['city']) . "', csc_id = '" . $this->db->escape($data['csc_id']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
-            $this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
-	 $this->db->query("UPDATE " . DB_PREFIX . "user SET firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', address_1 = '" . $this->db->escape($data['address_1']) . "',postoffice = '" . $this->db->escape($data['postoffice']) . "', tehsildar = '" . $this->db->escape($data['tehsildar']) . "',govtschool = '" . $this->db->escape($data['govtschool']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', csc_id = '" . $this->db->escape($data['csc_id']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE username = '".$this->customer->getUserName()."'");
+        $this->db->query("UPDATE " . DB_PREFIX . "address SET firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', address_1 = '" . $this->db->escape($data['address_1']) . "',address_2 = '" . $this->db->escape($data['address_2']) . "', postoffice = '" . $this->db->escape($data['postoffice']) . "', city = '" . $this->db->escape($data['city']) . "',geog='".$this->db->escape($data['geog']). "', csc_id = '" . $this->db->escape($data['csc_id']) . "', zone_id = '" . (int)$data['zone_id'] . "', dungkhag_id='".(int)$data['dungkhag_id']."',country_id = '" . (int)$data['country_id'] . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
+        $this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+	 	$this->db->query("UPDATE " . DB_PREFIX . "user SET firstname = '" . $this->db->escape(ucwords($data['firstname'])) . "', lastname = '" . $this->db->escape(ucwords($data['lastname'])) . "', address_1 = '" . $this->db->escape($data['address_1']) . "',postoffice = '" . $this->db->escape($data['postoffice']) . "', csc_id = '" . $this->db->escape($data['csc_id']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE username = '".$this->customer->getUserName()."'");
 //		if (!empty($data['default'])) {
 //			$this->db->query("UPDATE " . DB_PREFIX . "customer SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 //		}
@@ -52,17 +52,18 @@ class ModelAccountAddress extends Model {
 			} else {
 				$zone = '';
 				$zone_code = '';
-			}		
-//			$csc_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "csc_details` WHERE csc_id = '" . (int)$address_query->row['csc_id'] . "'");
-//			
-//			if ($csc_query->num_rows) {
-//				$csc = $csc_query->row['name'];
-//				//$zone_code = $zone_query->row['code'];
-//			} else {
-//				$zone = '';
-//				$zone_code = '';
-//			}
-                        
+			}	
+
+			$dungkhag_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "dungkhag` WHERE dungkhag_id = '" . (int)$address_query->row['dungkhag_id'] . "'");
+				
+			if ($dungkhag_query->num_rows) {
+				$dungkhag = $dungkhag_query->row['name'];
+				$dungkhag_code = $dungkhag_query->row['code'];
+			} else {
+				$dungkhag = '';
+				$dungkhag_code = '';
+			}
+          
 			$address_data = array(
 				'firstname'      => $address_query->row['firstname'],
 				'lastname'       => $address_query->row['lastname'],
@@ -73,13 +74,14 @@ class ModelAccountAddress extends Model {
 				'address_2'      => $address_query->row['address_2'],
 				'postcode'       => $address_query->row['postcode'],
 				'city'           => $address_query->row['city'],
-                            'postoffice'      => $address_query->row['postoffice'],
-                            'tehsildar'      => $address_query->row['tehsildar'],
-                            'govtschool'      => $address_query->row['govtschool'],  
-                            'csc_id'           => $address_query->row['csc_id'],
+                'postoffice'     => $address_query->row['postoffice'],
+                'csc_id'         => $address_query->row['csc_id'],
 				'zone_id'        => $address_query->row['zone_id'],
+				'dungkhag_id'    => $address_query->row['dungkhag_id'],
+				'geog'        	 => $address_query->row['geog'],
 				'zone'           => $zone,
 				'zone_code'      => $zone_code,
+				'dungkhag'		=> $dungkhag,
 				'country_id'     => $address_query->row['country_id'],
 				'country'        => $country,	
 				'iso_code_2'     => $iso_code_2,

@@ -107,9 +107,9 @@ class ControllerPricingPricing extends Controller {
 			if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
 			}
-if (isset($this->request->get['price_duration_id'])) {
-			$url .= '&price_duration_id=' . $this->request->get['price_duration_id'];
-		}
+			if (isset($this->request->get['price_duration_id'])) {
+				$url .= '&price_duration_id=' . $this->request->get['price_duration_id'];
+			}
 			$this->redirect($this->url->link('pricing/pricing', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
@@ -278,7 +278,7 @@ if (isset($this->request->get['price_duration_id'])) {
 		if (isset($this->request->get['order'])) {
 			$url .= '&order=' . $this->request->get['order'];
 		}
-if (isset($this->request->get['price_duration_id'])) {
+		if (isset($this->request->get['price_duration_id'])) {
 			$url .= '&price_duration_id=' . $this->request->get['price_duration_id'];
 		}
 		$pagination = new Pagination();
@@ -433,14 +433,7 @@ if (isset($this->request->get['price_duration_id'])) {
 			$this->data['from_price_range'] = '';
 		}
 		
-		/* if (isset($this->request->post['duration_name'])) {
-			$this->data['duration_name'] = $this->request->post['duration_name'];
-		} elseif (!empty($country_info)) {
-			$this->data['duration_name'] = $country_info['duration_name'];
-		} else {
-			$this->data['duration_name'] = '';
-		} */
-
+		
 		if (isset($this->request->post['to_price_range'])) {
 			$this->data['to_price_range'] = $this->request->post['to_price_range'];
 		} elseif (!empty($country_info)) {
@@ -467,30 +460,7 @@ if (isset($this->request->get['price_duration_id'])) {
 			$this->data['duration_policy_id'] = '';
 		}
 
-		/*if (isset($this->request->post['address_format'])) {
-			$this->data['address_format'] = $this->request->post['address_format'];
-		} elseif (!empty($country_info)) {
-			$this->data['address_format'] = $country_info['address_format'];
-		} else {
-			$this->data['address_format'] = '';
-		}
-
-		if (isset($this->request->post['postcode_required'])) {
-			$this->data['postcode_required'] = $this->request->post['postcode_required'];
-		} elseif (!empty($country_info)) {
-			$this->data['postcode_required'] = $country_info['postcode_required'];
-		} else {
-			$this->data['postcode_required'] = 0;
-		}
-				
-		if (isset($this->request->post['status'])) {
-			$this->data['status'] = $this->request->post['status'];
-		} elseif (!empty($country_info)) {
-			$this->data['status'] = $country_info['status'];
-		} else {
-			$this->data['status'] = '1';
-		}*/
-
+		
 		$this->template = 'pricing/pricing_form.tpl';
 		$this->children = array(
 			'common/header',
@@ -619,35 +589,7 @@ if (isset($this->request->get['price_duration_id'])) {
 				$this->error['warning'] = $this->language->get('error_default');
 			}
 			
-			/*$store_total = $this->model_setting_store->getTotalStoresByCountryId($policy_id);
-
-			if ($store_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_store'), $store_total);
-			}*/
 			
-			/*$address_total = $this->model_sale_customer->getTotalAddressesByCountryId($policy_id);
-	
-			if ($address_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_address'), $address_total);
-			}*/
-
-			/*$affiliate_total = $this->model_sale_affiliate->getTotalAffiliatesByCountryId($policy_id);
-	
-			if ($affiliate_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_affiliate'), $affiliate_total);
-			}
-							
-			$zone_total = $this->model_localisation_zone->getTotalZonesByCountryId($policy_id);
-		
-			if ($zone_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_zone'), $zone_total);
-			}
-		
-			$zone_to_geo_zone_total = $this->model_localisation_geo_zone->getTotalZoneToGeoZoneByCountryId($policy_id);
-		
-			if ($zone_to_geo_zone_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_zone_to_geo_zone'), $zone_to_geo_zone_total);
-			}*/
 		}
 	
 		if (!$this->error) {

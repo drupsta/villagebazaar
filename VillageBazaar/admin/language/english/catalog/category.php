@@ -20,12 +20,12 @@ $_['column_sort_order']      = 'Display Order';
 $_['column_action']          = 'Action';
 
 // Entry
-$_['entry_name']             = 'Enter New Category/ Subcategory Name:';
+$_['entry_name']             = 'Enter New Category:';
 
 $_['entry_meta_keyword'] 	 = 'Meta Tag Keywords:';
 $_['entry_meta_description'] = 'Meta Tag Description:';
 $_['entry_description']      = 'Description:';
-$_['entry_parent']           = 'Select Category (for subcategory):';
+$_['entry_parent']           = 'Select Subcategory:';
 $_['entry_filter']           = 'Filters:<br /><span class="help">(Autocomplete)</span>';
 $_['entry_store']            = 'CSC:';
 $_['entry_keyword']          = 'SEO Keyword:<br /><span class="help">Do not use spaces instead replace spaces with - and make sure the keyword is globally unique.</span>';

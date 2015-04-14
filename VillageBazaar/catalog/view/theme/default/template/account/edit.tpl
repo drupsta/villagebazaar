@@ -37,14 +37,14 @@
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo "Mobile No:"; ?></td>
-          <td><input type="text" size="2" name="country_code" maxlength="5" placeholder="+91" value="<?php echo $country_code; ?>"/>-<input type="text" name="telephone" value="<?php echo $telephone; ?>" />
+          <td><input type="text" size="2" name="country_code" maxlength="5" placeholder="+975" value="<?php echo $country_code; ?>"/>-<input type="text" name="telephone" value="<?php echo $telephone; ?>" />
             <?php if ($error_telephone) { ?>
             <span class="error"><?php echo $error_telephone; ?></span>
             <?php } ?></td>
         </tr>
        <tr>
           <td><?php echo "Landline No:"; ?></td>
-          <td><input type="text" size="2" name="std" maxlength="5" placeholder="STD" value="<?php echo $std; ?>"/>-<input type="text" maxlength="10" name="landline" value="<?php echo $landline; ?>" />
+          <td><input type="text" size="2" name="std" maxlength="4" placeholder="code" value="<?php echo $std; ?>"/>-<input type="text" maxlength="10" name="landline" value="<?php echo $landline; ?>" />
             <?php if ($error_landline) { ?>
             <span class="error"><?php echo $error_landline; ?></span>
             <?php } ?></td>

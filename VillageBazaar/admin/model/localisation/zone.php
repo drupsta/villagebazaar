@@ -32,14 +32,14 @@ class ModelLocalisationZone extends Model {
 	public function getZones($data = array()) {
 		$sql = "SELECT *, z.name, c.name AS country FROM " . DB_PREFIX . "zone z LEFT JOIN " . DB_PREFIX . "country c ON (z.country_id = c.country_id)";
 		
-                if (isset($data['filter_country_id']) && !is_null($data['filter_country_id'])) {
-                    if (is_numeric($data['filter_country_id'])) {
-			$sql .= " WHERE z.country_id = '" . (int)$data['filter_country_id'] . "'";
-		} else {
-                    session_destroy();
-            header("location:http://".HTTP_SERVERIP."/villagebazaar/index.php?route=account/login");
-		
-                } }else {
+        if (isset($data['filter_country_id']) && !is_null($data['filter_country_id'])) {
+            if (is_numeric($data['filter_country_id'])) {
+				$sql .= " WHERE z.country_id = '" . (int)$data['filter_country_id'] . "'";
+			} else {
+                session_destroy();
+            	header("location:http://".HTTP_SERVERIP."/villagebazaar/index.php?route=account/login");
+		    } 
+        }else {
 			$sql .= " WHERE z.country_id > '0'";
 		}
                 
@@ -77,20 +77,7 @@ class ModelLocalisationZone extends Model {
 		
 		return $query->rows;
 	}
-	
-	//public function getZonesByCountryId($country_id) {
-//		$zone_data = $this->cache->get('zone.' . (int)$country_id);
-//	
-//		if (!$zone_data) {
-//			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY name");
-//	
-//			$zone_data = $query->rows;
-//			
-//			$this->cache->set('zone.' . (int)$country_id, $zone_data);
-//		}
-//	
-//		return $zone_data;
-//	}
+
 
 public function getZonesByCountryId($country_id) {
 		$zone_data = $this->cache->get('zone.' . (int)$country_id);
@@ -114,13 +101,9 @@ public function getZonesByCountryId($country_id) {
 		} else {
 	      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zone");
 		}
-                return $query->row['total'];
-        }
-//	public function getTotalZones() {
-//      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zone");
-//		
-//		return $query->row['total'];
-//	}
+        return $query->row['total'];
+    }
+
 				
 	public function getTotalZonesByCountryId($country_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "'");

@@ -28,9 +28,9 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_banner'] = $this->language->get('text_banner');
 		$this->data['text_catalog'] = $this->language->get('text_catalog');
 		$this->data['text_category'] = $this->language->get('text_category');
-		//Added on 24 Sep
-                $this->data['text_category'] = $this->language->get('text_category');
-                $this->data['text_subcategory'] = $this->language->get('text_subcategory');
+		
+        $this->data['text_subcategory_new'] = $this->language->get('text_subcategory_new');
+        $this->data['text_subcategory'] = $this->language->get('text_subcategory');
 		$this->data['text_pricing_policy'] = $this->language->get('text_pricing_policy');
 		$this->data['text_pricing'] = $this->language->get('text_pricing');
 		
@@ -155,7 +155,8 @@ class ControllerCommonHeader extends Controller {
 			$this->data['banner'] = $this->url->link('design/banner', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['category'] = $this->url->link('catalog/category', 'token=' . $this->session->data['token'], 'SSL');
 			//Added on 24 Sep
-                        $this->data['subcategory'] = $this->url->link('catalog/subcategory', 'token=' . $this->session->data['token'], 'SSL');
+            $this->data['subcategory'] = $this->url->link('catalog/subcategory', 'token=' . $this->session->data['token'], 'SSL');
+            $this->data['new_subcategory'] = $this->url->link('catalog/subcategory_new', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['pricing'] = $this->url->link('pricing/pricing', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['country'] = $this->url->link('localisation/country', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['coupon'] = $this->url->link('sale/coupon', 'token=' . $this->session->data['token'], 'SSL');

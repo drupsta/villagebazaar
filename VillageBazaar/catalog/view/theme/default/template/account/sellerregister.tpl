@@ -1,15 +1,17 @@
 <?php echo $header; ?>
-<?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
-<?php } ?>
+
 <?php echo $column_left; ?>
 <!--<?php echo $column_right; ?>-->
 <div id="content"><?php // echo $content_top; ?>
   
-<!--  <h1><?php echo $heading_title; ?></h1>
-  <p><?php echo $text_adminaccount_already; ?></p>-->
-<h1><?php echo "New to Village Bazaar? Register below";  ?></h1> 
 
+<h1><?php echo "New to Village Bazaar? Register below";  ?></h1> 
+ <?php if ($error_warning) { ?>
+  <div class="warning"><?php echo $error_warning; ?></div>
+  <?php } ?>
+  <?php if ($success) { ?>
+  <div class="success"><?php echo $success; ?></div>
+  <?php } ?>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
     <h2><?php echo $text_your_details; ?></h2>
     <div class="content">
@@ -43,8 +45,7 @@
             <span class="error"><?php echo $error_email2; ?></span>
             <?php } ?> 
             </td>
-        </tr>
-	   	
+        </tr>	   	
         
       <tr>
           <td><span class="required">*</span> <?php echo $entry_mobileno; ?></td>
@@ -74,7 +75,7 @@
      
         <tr>
           <td><span class="required">*</span> <?php echo $entry_address; ?></td>
-          <td><input type="text" name="address" value="<?php echo ucwords($address); ?>" />
+          <td><input type="text" name="address_1" value="<?php echo ucwords($address); ?>" />
             <?php if ($error_address) { ?>
             <span class="error"><?php echo $error_address; ?></span>
             <?php } ?></td>
@@ -83,7 +84,7 @@
 		
 		 <tr>
           <td><span class="required"></span> <?php echo $entry_village; ?></td>
-          <td><input type="text" name="village" value="" />
+          <td><input type="text" name="address_2" value="" />
 		 	<?php echo ucwords($village); ?> 
             <?php if ($error_village) { ?>
             <span class="error"><?php echo $error_village; ?></span>
@@ -92,10 +93,8 @@
 				
 		
       <tr>
-          <td><span class="required">*</span> <?php echo $entry_country; ?></td>
-			
+          <td><span class="required">*</span> <?php echo $entry_country; ?></td>			
           <td><select name="country_id">
-
               <option value=""><?php echo $text_select; ?></option>
               <?php foreach ($countries as $country) { ?>
 			 
@@ -113,24 +112,24 @@
 
         <tr>
           	<td><span class="required">*</span> <?php echo $entry_dzongkhag; ?></td>
-          	<td><select name="zone_id"> </select>			
+          	<td><select name="zone_id" id="zone_id"> </select>			
             	<?php if ($error_dzongkhag) { ?>
             	<span class="error"><?php echo $error_dzongkhag; ?></span>
             	<?php } ?>
 			</td>
         </tr>
 		<tr>
-          <td><span class="required"></span> <?php echo $entry_dungkhag; ?></td>
-			<td><select name="zone_id"></select></td>
-         
-            <?php if ($error_dungkhag) { ?>
-            <span class="error"><?php echo $error_dungkhag; ?></span>
-            <?php } ?></td>
+        	<td><span class="required"></span> <?php echo $entry_dungkhag; ?></td>
+			<td><select name="dungkhag_id" id="dungkhag"><?php echo $text_select; ?></select></td>         
+            	<?php if ($error_dungkhag) { ?>
+            		<span class="error"><?php echo $error_dungkhag; ?></span>
+            	<?php } ?>
+			</td>
         </tr>
 		<tr>
           <td><span class="required">*</span> <?php echo $entry_geog; ?></td>
-          <td><input type="text" name="geog" value="" />
-		 	<?php echo ucwords($geog); ?> 
+          <td><input type="text" name="geog" value="<?php echo ucwords($geog); ?> " />
+		 	
             <?php if ($error_geog) { ?>
             <span class="error"><?php echo $error_geog; ?></span>
             <?php } ?></td>
@@ -147,7 +146,7 @@
 		<tr>
         <!--  <td><span id="postcode-required" class="required">*</span> <?php echo $entry_postoffice; ?></td>-->
         <td> <?php echo $entry_postoffice; ?></td>
-          <td><input type="text" name="postoffice" maxlength="6" value="<?php echo $postoffice; ?>" />
+          <td><input type="text" name="postoffice" maxlength="20" value="<?php echo $postoffice; ?>" />
             <?php if ($error_postoffice) { ?>
             <span class="error"><?php echo $error_postoffice; ?></span>
             <?php } ?>
@@ -231,7 +230,7 @@ $('select[name=\'country_id\']').bind('change', function() {
 		url: 'index.php?route=account/sellerregister/country&country_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
-		// alert(url);
+		//alert(url);
 			$('select[name=\'country_id\']').after('<span class="wait">&nbsp;<img src="catalog/view/theme/default/image/loading.gif" alt="" /></span>');
 		},
 		complete: function() {
@@ -264,6 +263,29 @@ $('select[name=\'country_id\']').bind('change', function() {
 });
 
 $('select[name=\'country_id\']').trigger('change');
+
+
+$("#zone_id").change(function(){
+							 
+	var postForm = { 
+            'zone_id'  : $(this).val()
+            
+        };
+$.ajax({
+        type: 'post',
+        url: 'index.php?route=account/sellerregister/getDungkhag',
+        dataType: 'html',
+        data: postForm,
+        success: function (data)		
+		{
+		
+		$('#dungkhag').html(data); 
+		
+       }
+    });
+        
+    
+}); 
 </script> 
 
 

@@ -12,6 +12,7 @@ $_['text_your_address']    = 'Your Address';
 $_['text_newsletter']      = 'Newsletter';
 $_['text_your_password']   = 'Your Login Details';
 $_['text_agree']           = 'I have read and agree to the <a class="colorbox" href="%s" alt="%s"><b>%s</b></a>';
+$_['text_none']				= "None";
 
 // Entry
 $_['entry_username']       = 'Username:';
@@ -54,7 +55,7 @@ $_['error_email']          = 'E-Mail Address is mandatory!';
 $_['error_mobileno']      = 'Invalid Mobile No.!';
 $_['error_landline']       = 'Invalid Fixed No.!';
 $_['error_areacode']       = 'Invalid Area Code!';
-$_['error_address']      = 'Address 1 must be between 3 and 10 characters!';
+$_['error_address']      = 'Address 1 must be between 3 and 250 characters!';
 $_['error_village']		= "Village must be betweeb 1 and 50 characters";
 $_['eror_geog']			= "Geog must be between 1 and 50 characters";
 $_['eror_dungkhag']			= "Dungkhag must be between 1 and 50 characters";
@@ -67,6 +68,7 @@ $_['error_confirm']        = 'Password confirmation does not match password!';
 $_['error_cec']            = 'Please select a CEC Name!';
 $_['error_country']        = 'Please select a country!';
 $_['error_zone']           = 'Please select a region / state!';
+$_['error_register']		= 'Failed to register your account!';
 
 /*
 $_['entry_fax']            = 'Fax:';

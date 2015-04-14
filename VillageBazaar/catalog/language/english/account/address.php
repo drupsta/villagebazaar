@@ -19,9 +19,13 @@ $_['entry_tax_id']      = 'Tax ID:';
 $_['entry_address_1']   = 'Address 1:';
 $_['entry_address_2']   = 'Address 2:';
 $_['entry_postcode']    = 'Post Code:';
-$_['entry_city']        = 'City:';
+$_['entry_postoffice']    = 'Post Office:';
+
+$_['entry_city']        = 'City/Town:';
+$_['entry_geog']        = 'Geog:';
+$_['entry_dungkhag']    = 'Dunkhag:';
+$_['entry_zone']        = 'Dzongkhag:';
 $_['entry_country']     = 'Country:';
-$_['entry_zone']        = 'Region / State:';
 $_['entry_default']     = 'Default Address:';
 
 // Error
@@ -33,7 +37,9 @@ $_['error_vat']         = 'VAT number is invalid!';
 $_['error_address_1']   = 'Address must be between 3 and 128 characters!';
 $_['error_postcode']    = 'Postcode must be between 2 and 10 characters!';
 $_['error_city']        = 'City must be between 2 and 128 characters!';
+$_['error_geog']        = 'Geog must be between 2 and 128 characters!';
 $_['error_country']     = 'Please select a country!';
 $_['error_zone']        = 'Please select a region / state!';
+$_['error_dungkhag']    = 'Please select a dungkhag!';
 $_['error_cec']            = 'Please select a CEC Name!';
 ?>

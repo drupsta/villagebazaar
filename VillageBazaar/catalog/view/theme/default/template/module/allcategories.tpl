@@ -137,7 +137,7 @@
 					<p class="portfolio-item-meta">
 						<a class="link" href="<?php echo $cat['url'] ?>"><?php echo $cat['name'] ?></a>
 					</p>
-                                       <ul class="sub">
+                     <ul class="sub">
                 <?php if ($cat['subcats']!=NULL) { ?>
                         <?php foreach($cat['subcats'] as $subcat){  ?>
                          <li><a href="<?php echo $subcat['url'] ?>" title="<?php echo $subcat['name'] ?>">

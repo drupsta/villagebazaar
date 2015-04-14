@@ -119,7 +119,7 @@ $(document).ready(function(){
    <li id="catalog"><a class="top"><?php echo $text_catalog; ?></a>
         <ul>
 
-          <?php if(!empty($hide) && in_array('category',$hide)){?>
+      <?php if(!empty($hide) && in_array('category',$hide)){?>
 
 	  <div style="display:none;"><li><a href="<?php echo $category; ?>"><?php echo $text_category; ?></a></li></div>
 
@@ -137,7 +137,7 @@ $(document).ready(function(){
 	  <li><a href="<?php echo $subcategory; ?>"><?php echo $text_subcategory; ?></a></li>
 	  <?php }?>
 
-          <?php if(!empty($hide) && in_array('product',$hide)){?>
+      <?php if(!empty($hide) && in_array('product',$hide)){?>
 
 	  <div style="display:none;"><li><a href="<?php echo $product; ?>"><?php echo $text_product; ?></a></li></div>
 
@@ -539,8 +539,7 @@ $(document).ready(function(){
 	    </ul>
               </li>
 	    <?php }?>  
-<!--test-->
-         
+ 
 
 
 	   <?php if(isset($hide) && in_array('users',$hide)){?>
@@ -551,37 +550,41 @@ $(document).ready(function(){
 	  <li><a class="parent"><?php echo $text_users; ?></a>
             <ul>
 
-	     <?php if(isset($hide) && in_array('user',$hide)){?>
+	 <?php if(isset($hide) && in_array('user',$hide)){?>
 	  <div style="display:none;">
               <li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li></div>
 	       <?php } else { ?>
 	       <li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li>
 	       <?php }?>
 
-<!-- Comment 581 to 586 for user_group -->
+
          <?php if(isset($hide) && in_array('user_group',$hide)){?>
 	     <div style="display:none;">
               <li><a href="<?php echo $user_group; ?>"><?php echo $text_user_group; ?></a></li></div>
 	      <?php } else { ?>
               <li><a href="<?php echo $user_group; ?>"><?php echo $text_user_group; ?></a></li>
-	      <?php }?>  
+	      <?php }?>
+<!---- Addition of new admin --- 23-07-2014---------->
+
+		<?php if($_SESSION['username']=='root') { 
+			if(isset($hide) && in_array('cecadmin',$hide)){?>
+	     	<div style="display:none;">
+              	<li><a href="http://localhost/villagebazaar/index.php?route=account/sellerregister"><?php echo "Create new Admin"; ?></a></li></div>
+	    <?php } else { ?>
+              <li><a href="http://localhost/villagebazaar/index.php?route=account/sellerregister"><?php echo "Create new Admin"; ?></a></li>
+	      <?php } 
+		}?>
+  
             </ul>
                 </li>
 	    <?php }?>
           
-<!---- Addition of new admin --- 23-07-2014---------->
 
-<?php if($_SESSION['username']=='root') { if(isset($hide) && in_array('cecadmin',$hide)){?>
-	     <div style="display:none;">
-              <li><a href="http://localhost/villagebazaar/index.php?route=account/sellerregister"><?php echo "Create new Admin"; ?></a></li></div>
-	      <?php } else { ?>
-              <li><a href="http://localhost/villagebazaar/index.php?route=account/sellerregister"><?php echo "Create new Admin"; ?></a></li>
-	      <?php } }?>
            
-	   <?php if(isset($hide) && in_array('localisation',$hide)){?>
-	  <div style="display:none;">
+	   	<?php if(isset($hide) && in_array('localisation',$hide)){?>
+	 	 <div style="display:none;">
           <li><a class="parent"><?php echo $text_localisation; ?></a></li></div>
-	  <?php } else { ?>
+	 	 <?php } else { ?>
            <li><a class="parent"><?php echo $text_localisation; ?></a>
             <ul>
 

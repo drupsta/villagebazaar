@@ -17,10 +17,10 @@ class ControllerModuleAllCategories extends Controller {
         		'separator' => '/'
       	);	
 		$this->load->model('catalog/category');
-                $this->load->model('catalog/product');
+        $this->load->model('catalog/product');
 		$this->load->model('catalog/allcategories');
               //Added by Astha
-                $this->data['categories'] = array();
+        $this->data['categories'] = array();
                 ////
 		$categories = $this->model_catalog_category->getCategories();
 		$cats		=	array();
@@ -58,7 +58,7 @@ class ControllerModuleAllCategories extends Controller {
 //		}
 		foreach($categories as $category){
 			//$total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category['category_id']));
-                       $total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category['category_id']));
+            $total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category['category_id']));
 			$subcategories = $this->model_catalog_category->getCategories($category['category_id']);
 			
                         foreach($subcategories as $subcategory){

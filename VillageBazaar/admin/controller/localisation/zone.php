@@ -152,8 +152,8 @@ class ControllerLocalisationZone extends Controller {
 				
 		$url = '';
 		if (isset($this->request->get['filter_country_id'])) {
-				$url .= '&filter_country_id=' . $this->request->get['filter_country_id'];
-			}
+			$url .= '&filter_country_id=' . $this->request->get['filter_country_id'];
+		}
                 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -194,7 +194,6 @@ class ControllerLocalisationZone extends Controller {
 			'limit' => $this->config->get('config_admin_limit')
 		);
 		
-		//$zone_total = $this->model_localisation_zone->getTotalZones();
 		$zone_total = $this->model_localisation_zone->getTotalZones($data);	
 		$results = $this->model_localisation_zone->getZones($data);
 
@@ -266,10 +265,7 @@ class ControllerLocalisationZone extends Controller {
 			$this->data['sort_code'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'] . '&sort=z.code' . $url, 'SSL');
 		}
                 
-//		$this->data['sort_country'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'] . '&sort=c.name' . $url, 'SSL');
-//		$this->data['sort_name'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'] . '&sort=z.name' . $url, 'SSL');
-//		$this->data['sort_code'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'] . '&sort=z.code' . $url, 'SSL');
-		
+	
 		$url = '';
 
                 
@@ -294,7 +290,7 @@ class ControllerLocalisationZone extends Controller {
 
 		$this->data['pagination'] = $pagination->render();
 		
-                $this->data['filter_country_id'] = $filter_country_id;
+        $this->data['filter_country_id'] = $filter_country_id;
 		$this->load->model('localisation/country');
 
     	$this->data['countries'] = $this->model_localisation_country->getCountries();

@@ -3,44 +3,46 @@ class ControllerAccountSellerRegister extends Controller {
 	private $error = array();
 	      
   	public function index() {
+  		$this->language->load('account/sellerregister');
+  		
+  		$this->document->setTitle($this->language->get('heading_title'));
+  		
+  		$this->load->model('account/seller');
+  		
+  		$this->getForm();
+  	}
+  	public function insert(){
+  		$this->language->load('account/sellerregister');
+  		
+  		$this->document->setTitle($this->language->get('heading_title'));
+  		$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');
+  		$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');
+  		$this->load->model('account/seller');
+  		
+  		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+  			$this->model_account_seller->addCustomer($this->request->post);
+  		
+  			$this->customer->login($this->request->post['email'], $this->request->post['password']);
+  		
+  			unset($this->session->data['guest']);
+  				
+  		
+  			$this->redirect($this->url->link('account/success'));
+  		}
+  		else
+  			$this->error['warning'] = $this->language->get('error_register');
+  		
+  		$this->getForm();
+  		
+  	}
+  	
+  	public function getForm(){
+  		
 		if ($this->customer->isLogged()) {
 	  		//$this->redirect($this->url->link('account/account', '', 'SSL'));
     	}
-
-    	$this->language->load('account/sellerregister');
 		
-		$this->document->setTitle($this->language->get('heading_title'));
-		$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');
-		$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');
-					
-		$this->load->model('account/seller');
-		
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$this->model_account_seller->addCustomer($this->request->post);
-
-			$this->customer->login($this->request->post['email'], $this->request->post['password']);
-			
-			unset($this->session->data['guest']);
-			
-			// Default Shipping Address
-			//if ($this->config->get('config_tax_customer') == 'shipping') {
-			//	$this->session->data['shipping_country_id'] = $this->request->post['country_id'];
-			//	$this->session->data['shipping_zone_id'] = $this->request->post['zone_id'];
-			//	$this->session->data['shipping_postcode'] = $this->request->post['postcode'];				
-			//}
-			
-			// Default Payment Address
-			//if ($this->config->get('config_tax_customer') == 'payment') {
-			//	$this->session->data['payment_country_id'] = $this->request->post['country_id'];
-			//	$this->session->data['payment_zone_id'] = $this->request->post['zone_id'];			
-			//}
-							  	  
-	  		$this->redirect($this->url->link('account/success'));
-    	} 
-
-      
-		
-    	$this->data['heading_title'] = $this->language->get('heading_title');
+       	$this->data['heading_title'] = $this->language->get('heading_title');
 		
 		$this->data['text_adminaccount_already'] = sprintf($this->language->get('text_adminaccount_already'),$this->language->get('admin'));
 		
@@ -63,15 +65,13 @@ class ControllerAccountSellerRegister extends Controller {
     	$this->data['entry_dzongkhag'] = $this->language->get('entry_dzongkhag');
 		
 		$this->data['entry_postoffice'] = $this->language->get('entry_postoffice');
-		$this->data['entry_tehsildar'] = $this->language->get('entry_tehsildar');
-		$this->data['entry_govtschool'] = $this->language->get('entry_govtschool');
-		
+				
     	$this->data['entry_postcode'] = $this->language->get('entry_postcode');
     	$this->data['entry_city'] = $this->language->get('entry_city');
 		$this->data['text_your_password'] = $this->language->get('text_your_password');
 		$this->data['entry_password'] = $this->language->get('entry_password');
     	$this->data['entry_confirm'] = $this->language->get('entry_confirm');
-		$this->data['action'] = $this->url->link('account/sellerregister', '', 'SSL');
+		$this->data['action'] = $this->url->link('account/sellerregister/insert','', 'SSL');
 		$this->data['entry_username'] = $this->language->get('entry_username');
 		$this->data['entry_country'] = $this->language->get('entry_country');
     	$this->data['entry_zone'] = $this->language->get('entry_zone');
@@ -100,7 +100,13 @@ class ControllerAccountSellerRegister extends Controller {
 		} else {
 			$this->data['error_warning'] = '';
 		}
+		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
 		
+			unset($this->session->data['success']);
+		} else {
+			$this->data['success'] = '';
+		}
 		
 		if (isset($this->error['email'])) {
 			$this->data['error_email'] = $this->error['email'];
@@ -273,18 +279,7 @@ class ControllerAccountSellerRegister extends Controller {
 			$this->data['postoffice'] = '';
 		}
 			
-		if (isset($this->request->post['tehsildar'])) {
-    		$this->data['tehsildar'] = $this->request->post['tehsildar'];
-		} else {
-			$this->data['tehsildar'] = '';
-		}
-				
-		if (isset($this->request->post['govtschool'])) {
-    		$this->data['govtschool'] = $this->request->post['govtschool'];
-		} else {
-			$this->data['govtschool'] = '';
-		}
-		
+			
 		if (isset($this->request->post['postcode'])) {
     		$this->data['postcode'] = $this->request->post['postcode'];
 		} elseif (isset($this->session->data['shipping_postcode'])) {
@@ -414,37 +409,41 @@ class ControllerAccountSellerRegister extends Controller {
 				
 		$this->response->setOutput($this->render());	
   	}
-
+  	
+  
   	 protected function validate() {
+  	 	
     	if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)
 		||!preg_match('/^[a-zA-Z ]*$/', $this->request->post['firstname'])) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
+      		
     	}
 
     	if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)
 		||!preg_match('/^[a-zA-Z ]*$/', $this->request->post['lastname'])) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
+      		
     	}
 
     	//if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post[   
 		//'email'])) {
         if($this->request->post['email']==NULL) {
             $this->error['email'] = $this->language->get('error_email');
+           
         }
         elseif ($this->request->post['email']!==$this->request->post['email_confirm'])
-  {
- $this->error['email_confirm'] = $this->language->get('error_email2');
- //echo'<p class="error">&bull; The email addresses you entered do not match, please go back in your browser and carefully re-enter your email address!</p>';
- }
-      		if($this->request->post['email']!=NULL)
+  		{
+ 			$this->error['email_confirm'] = $this->language->get('error_email2'); 			
+ 			
+ 		}
+      	if($this->request->post['email']!=NULL)
+		{
+			if ( !preg_match('/(^[^\@]+@.*\.[a-z]{2,6}$)/i', $this->request->post['email']))
 			{
-			if ( !preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/', $this->request->post[   
-		'email']))
-			{
-			$this->error['email'] = $this->language->get('error_email1');
+				$this->error['email'] = $this->language->get('error_email1');
     		}
 		}
-if ($this->model_account_seller->getTotalUsersByEmail($this->request->post['email'])) {
+		if ($this->model_account_seller->getTotalUsersByEmail($this->request->post['email'])) {
       		$this->error['warning'] = $this->language->get('error_email3');
     	}		
 
@@ -453,67 +452,42 @@ if ($this->model_account_seller->getTotalUsersByEmail($this->request->post['emai
     	} */
 		
     
-	if ((utf8_strlen($this->request->post['telephone']) < 10) || (utf8_strlen($this->request->post['telephone']) > 10)
-		||!preg_match('/^[0-9]*$/', $this->request->post['telephone'])) {
+		if ((utf8_strlen($this->request->post['telephone']) < 7) || (utf8_strlen($this->request->post['telephone']) > 8)||!preg_match('/(^[0-9]*$)/', $this->request->post['telephone'])) {
       		$this->error['telephone'] = $this->language->get('error_mobileno');
     	}
 		
 		if($this->request->post['fixedline']!=NULL)
 		{
-		if ((utf8_strlen($this->request->post['fixedline']) > 6)
-		||!preg_match('/^[0-9]*$/', $this->request->post['fixedline']))
-		 {
-      		$this->error['fixedline'] = $this->language->get('error_fixedline');
-    	}
+			if ((utf8_strlen($this->request->post['fixedline']) > 6) ||!preg_match('/^[0-9]*$/', $this->request->post['fixedline']))
+		 	{
+      			$this->error['fixedline'] = $this->language->get('error_fixedline');
+    		}
 		}
 		
-                if($this->request->post['std']!=NULL)
+        if($this->request->post['areacode']!=NULL)
 		{
-		if ((utf8_strlen($this->request->post['std']) < 2)
-		||!preg_match('/^[0-9]*$/', $this->request->post['std']))
-		 {
-      		$this->error['std'] = $this->language->get('error_std');
-    	}
-		}
-		// Customer Group
-	/*	$this->load->model('account/customer_group');
-		
-		if (isset($this->request->post['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($this->request->post['customer_group_id'], $this->config->get('config_customer_group_display'))) {
-			$customer_group_id = $this->request->post['customer_group_id'];
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
+			if ((utf8_strlen($this->request->post['areacode']) < 2)||!preg_match('/(^[0-9]*$)/', $this->request->post['areacode']))
+		 	{
+      			$this->error['std'] = $this->language->get('error_std');
+    		}
 		}
 
-		$customer_group = $this->model_account_customer_group->getCustomerGroup($customer_group_id);
-			
-		if ($customer_group) {	
-			// Company ID
-			if ($customer_group['company_id_display'] && $customer_group['company_id_required'] && empty($this->request->post['company_id'])) {
-				$this->error['company_id'] = $this->language->get('error_company_id');
-			}
-			
-			// Tax ID 
-			if ($customer_group['tax_id_display'] && $customer_group['tax_id_required'] && empty($this->request->post['tax_id'])) {
-				$this->error['tax_id'] = $this->language->get('error_tax_id');
-			}						
-		} */
 		
-    	if ((utf8_strlen($this->request->post['address']) < 3) || (utf8_strlen($this->request->post['address']) > 7)) {
+    	if ((utf8_strlen($this->request->post['address_1']) < 3) || (utf8_strlen($this->request->post['address_1']) > 250)) {
       		$this->error['address'] = $this->language->get('error_address');
     	}
 
-    	if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 128)
-		||!preg_match('/^[a-zA-Z ]*$/', $this->request->post['city'])) {
+    	if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 50)
+		||!preg_match('/(^[a-zA-Z ]*$)/', $this->request->post['city'])) {
       		$this->error['city'] = $this->language->get('error_city');
     	}
 		
-		
-		if($this->request->post['postcode']!=NULL) {
-		if ((utf8_strlen($this->request->post['postcode']) < 6) || (utf8_strlen($this->request->post['postcode']) > 6)
-		||!preg_match('/^[0-9]*$/', $this->request->post['postcode'])) {
-      		$this->error['postcode'] = $this->language->get('error_postcode');
-    	}
-                }
+		/* 
+		if($this->request->post['postoffice']!=NULL) {
+			if ((utf8_strlen($this->request->post['postoffice']) < 6) || (utf8_strlen($this->request->post['postoffice']) > 20) ||!preg_match('/(^[0-9]*$)/', $this->request->post['postoffice'])) {
+      			$this->error['postcode'] = $this->language->get('error_postcode');
+    		}
+        } */
 		
 		if ($this->request->post['csc_id'] == '') {
       		$this->error['price_dur'] = $this->language->get('error_cec');
@@ -524,50 +498,12 @@ if ($this->model_account_seller->getTotalUsersByEmail($this->request->post['emai
 		
 		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 		$test1 = $this->model_account_seller->getUsername($this->request->post['username']);
-	//	print_r($test1);
-                if ((utf8_strlen($this->request->post['username']) < 3)||($test1!=array()) )
+	
+        if ((utf8_strlen($this->request->post['username']) < 3) )
 		 {
       		$this->error['username'] = $this->language->get('error_username');
     	}
-		/* $this->load->model('account/seller');
 		
-		$this->data['csc_detail'] = $this->model_account_seller->cscDetails();
-    	
-		if (isset($this->request->post['csc_id'])) {
-      		$this->data['csc_id'] = $this->request->post['csc_id'];    	
-		} else {
-      		$this->data['csc_id'] = 1;
-    	}*/
-		
-		
-		//$this->load->model('localisation/country');
-		
-		//$country_info = $this->model_localisation_country->getCSC($this->request->post['csc_id']);
-		
-		
-		/*$this->data['price_duration'] = $this->>model_localisation_country->getCSC();
-    	
-		if (isset($this->request->post['csc_id'])) {
-      		$this->data['csc_id'] = $this->request->post['csc_id'];    	
-		} else {
-      		$this->data['csc_id'] = 1;
-    	}*/
-		
-	/*	
-		if ($country_info) {
-			if ($country_info['postcode_required'] && (utf8_strlen($this->request->post['postcode']) < 2) || (utf8_strlen($this->request->post['postcode']) > 10)) {
-				$this->error['postcode'] = $this->language->get('error_postcode');
-			}
-			
-			// VAT Validation
-			$this->load->helper('vat');
-			
-			if ($this->config->get('config_vat') && $this->request->post['tax_id'] && (vat_validation($country_info['iso_code_2'], $this->request->post['tax_id']) == 'invalid')) {
-				$this->error['tax_id'] = $this->language->get('error_vat');
-			}
-		}*/
-
-
     	if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');
     	}
@@ -592,6 +528,8 @@ if ($this->model_account_seller->getTotalUsersByEmail($this->request->post['emai
       			$this->error['warning'] = sprintf($this->language->get('error_agree'), $information_info['title']);
 			}
 		}
+		print_r($this->error);
+		
 		
     	if (!$this->error) {
       		return true;
@@ -623,6 +561,24 @@ if ($this->model_account_seller->getTotalUsersByEmail($this->request->post['emai
 		}
 		
 		$this->response->setOutput(json_encode($json));
+	}
+	public function getDungkhag() {
+		//echo "testttt";
+		$this->language->load('account/sellerregister');
+		$output = '<option value="0">' . $this->language->get('text_none') . '</option>';
+	
+		$this->load->model('localisation/dungkhag');
+	
+		$results = $this->model_localisation_dungkhag->getDungkhagByZoneId($this->request->post['zone_id']);
+		
+		foreach ($results as $result) {
+			$output .= '<option value="' . $result['dungkhag_id'] . '"';
+		
+			$output .= '>' . $result['name'] . '</option>';
+		}
+	
+		$this->response->setOutput($output);
+	
 	}
 } 
 ?>
