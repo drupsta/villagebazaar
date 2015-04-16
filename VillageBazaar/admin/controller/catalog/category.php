@@ -265,10 +265,10 @@ class ControllerCatalogCategory extends Controller {
 			$this->data['error_warning'] = '';
 		}
 	
- 		if (isset($this->error['error_catname'])) {
-			$this->data['error_catname'] = $this->error['error_catname'];
+ 		if (isset($this->error['name'])) {
+			$this->data['error_name'] = $this->error['name'];
 		} else {
-			$this->data['error_catname'] = array();
+			$this->data['error_name'] = array();
 		}
 
   		$this->data['breadcrumbs'] = array();
@@ -455,6 +455,11 @@ class ControllerCatalogCategory extends Controller {
 
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
+		}
+		foreach ($this->request->post['category_description'] as $language_id => $value) {
+			if ((utf8_strlen($value['name']) < 2) || (utf8_strlen($value['name']) > 255)) {
+				$this->error['name'] = $this->language->get('error_name');
+			}
 		}
 					
 		if (!$this->error) {

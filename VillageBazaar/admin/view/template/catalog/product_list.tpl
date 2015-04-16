@@ -33,7 +33,7 @@
       <div class="buttons">
 	<!--  <a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a>-->
           <a href="<?php echo $insert; ?>" class="button"><?php echo "Advertise"; ?></a>
-	  <!--<a onclick="$('#form').attr('action', '<?php echo $copy; ?>'); $('#form').submit();" class="button"><?php echo $button_copy; ?></a>-->
+	  
 	  <a onclick="$('form').submit();" class="button"><?php echo $button_delete; ?></a>
 	  </div>
     </div>
@@ -47,17 +47,17 @@
          <select name="filter_week">
               <?php
               $curr_val=array("All"=>"All","30"=>"30","60" => "60","90" => "90");
-foreach($curr_val as $cval=>$cval1)
-                     {
-                     if($cval==$_GET['filter_week'])
-                            {
-                    echo "<option selected value=$cval>$cval1</option>";
-                             }
+				foreach($curr_val as $cval=>$cval1)
+                {
+                     if($cval==$_GET['filter_week']){
+                    	
+						echo "<option selected value=$cval>$cval1</option>";
+                     }
                      else
                      {
-                     echo "<option value=$cval>$cval1</option>";
+                     	echo "<option value=$cval>$cval1</option>";
                      }
-                     }
+                }
                       ?>
               
          </select><?php echo "  days";  ?><span style="color:blue">   (Please select number of days and click on "Search By" button) </span></h4></tr>

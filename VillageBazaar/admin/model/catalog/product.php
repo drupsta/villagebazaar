@@ -3,10 +3,10 @@ class ModelCatalogProduct extends Model {
 	
 	public function addProduct($data) {
 	// session value add for individual seller
-		$_SESSION['userid']=$this->user->getId();
+$_SESSION['userid']=$this->user->getId();
 		//changed by Astha to add expiry date field		
-		//$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW()");
-		$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',product_type = '" . $this->db->escape($data['product_type']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW(), date_expiry = DATE_ADD(NOW(), INTERVAL (price_duration_id*30) DAY)");
+	//$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW()");
+	$this->db->query("INSERT INTO " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',product_type = '" . $this->db->escape($data['product_type']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', user_id = '" . $_SESSION['userid'] . "', date_added = NOW(), date_expiry = DATE_ADD(NOW(), INTERVAL (price_duration_id*30) DAY)");
 	
 		
 		$product_id = $this->db->getLastId();
@@ -143,8 +143,8 @@ class ModelCatalogProduct extends Model {
 	}
 	
 	public function editProduct($product_id, $data) {
-		//$this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
-$this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',status = '1', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
+
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "product SET image = '" . $this->db->escape(html_entity_decode($data['image'], ENT_QUOTES, 'UTF-8')) . "' WHERE product_id = '" . (int)$product_id . "'");
 		}
@@ -232,13 +232,13 @@ $this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->es
 			}
 		}
 		
-		//$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "'");
 		
-//		if (isset($data['product_category'])) {
-//			foreach ($data['product_category'] as $category_id) {
-//				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "'");
-//			}		
-//		}
+		if (isset($data['product_category'])) {
+			foreach ($data['product_category'] as $category_id) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "'");
+			}		
+		}
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_filter WHERE product_id = '" . (int)$product_id . "'");
 		
@@ -351,8 +351,7 @@ $this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->es
 	}
 	
 	public function getProduct($product_id) {
-	$qry = "SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "') AS keyword FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND  pd.language_id = '" . (int)$this->config->get('config_language_id') . "'"; 	
-            $query = $this->db->query($qry);
+		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "') AS keyword FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND  pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 				
 		return $query->row;
 	}
@@ -763,18 +762,45 @@ $_SESSION['userid']=$this->user->getId();
          // Changed by Astha on 01-Aug-2014
           $query = $this->db->query("SELECT amount_percentage as tax FROM " . DB_PREFIX . "pricing_policy where ".$data['price']." between from_price_range and to_price_range and status=1 and duration_policy_id=".$data['duration']);
 		return $query->row['tax'];
-        }   
-        
-        public function getProductSubcategory($product_id) {
-		//$product_category_data = array();
-		$qry= "SELECT * FROM oc_product_to_category pc LEFT JOIN oc_category_description cd on (pc.category_id=cd.category_id) where pc.product_id = '" . (int)$product_id . "'";
-		$query = $this->db->query($qry);
+        }  
 		
-//		foreach ($query->rows as $result) {
-//			$product_category_data[] = $result['category_id'];
-//		}
+		
+		public function get_ccategory()
+		{
+			
+			$sql ="SELECT name, c.category_id FROM " . DB_PREFIX . "category_description cd ,oc_category c where 		  cd.`category_id`=c.`category_id` and parent_id=0 and status=1 order by name";
+			$query = $this->db->query($sql);
+			return $query->rows;
+			
+		}
+		
+		public function get_subcategory($category_id)
+		{
+			
+			$sql ="SELECT name, c.category_id  as category_id FROM ".DB_PREFIX."category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id='".$category_id."'and status = 1 order by name";
+			$query = $this->db->query($sql);
+			return $query->rows;
+			
+		}
+		public function getSubcategory($parent_id) {
+			$query = $this->db->query("SELECT name, c.category_id  as category_id FROM " .DB_PREFIX."category_description cd ,".DB_PREFIX."category c where cd.`category_id`=c.`category_id` and parent_id='" . (int)$parent_id . "' and status=1 order by name");
 
-		return $query->row['name'];
-	}
+			return $query->rows;
+		}
+
+		public function getProductCategoryID($product_id)
+		{
+			$sql="SELECT pc.category_id as category_id FROM " . DB_PREFIX . "product_to_category pc where product_id=".$product_id;
+			$query = $this->db->query($sql);
+			return $query->row['category_id'];
+		}
+
+		public function getParentCategoryID($category_id)
+		{
+			$sql="SELECT pc.parent_id as category_id FROM " . DB_PREFIX . "category pc where category_id=".$category_id;
+			$query = $this->db->query($sql);
+			return $query->row['category_id'];
+		}
+		 
 }
 ?>

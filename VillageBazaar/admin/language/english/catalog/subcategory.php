@@ -34,6 +34,7 @@ $_['error_warning']          = 'Warning: Please check the form carefully for err
 $_['error_permission']       = 'Warning: You do not have permission to modify categories!';
 $_['error_count']            = 'Warning: This is the only subcategory under selected category. Hence it cannot be deleted!';
 $_['error_name']             = 'Category Name must be between 2 and 32 characters!';
+$_['error_category']      	= 'Category cannot be blank!';
 $_['error_subcategory']      = 'Subcategory cannot be blank!';
 $_['error_productexist']     = 'Product Exist for the selected category. Category cannot be deleted!!!';
 ?>

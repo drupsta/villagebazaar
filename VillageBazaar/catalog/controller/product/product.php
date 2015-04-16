@@ -10,7 +10,7 @@ class ControllerProductProduct extends Controller {
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
 			//'href'      => $this->url->link('common/home'),
-                        'href'      => HTTP_SERVER,
+            'href'      => HTTP_SERVER,
 			'separator' => false
 		);
 		
@@ -242,10 +242,10 @@ class ControllerProductProduct extends Controller {
 			$this->data['text_select'] = $this->language->get('text_select');
 			$this->data['text_manufacturer'] = $this->language->get('text_manufacturer');
                         
-                        $this->data['text_address'] = $this->language->get('text_address');
-                        $this->data['text_contact'] = $this->language->get('text_contact');
-                        $this->data['text_seller_name'] = $this->language->get('text_seller_name');
-                        $this->data['text_csc_address'] = $this->language->get('text_csc_address');
+           	$this->data['text_address'] = $this->language->get('text_address');
+            $this->data['text_contact'] = $this->language->get('text_contact');
+            $this->data['text_seller_name'] = $this->language->get('text_seller_name');
+            $this->data['text_csc_address'] = $this->language->get('text_csc_address');
 			$this->data['text_model'] = $this->language->get('text_model');
 			$this->data['text_reward'] = $this->language->get('text_reward');
 			$this->data['text_points'] = $this->language->get('text_points');	
@@ -300,7 +300,7 @@ class ControllerProductProduct extends Controller {
 				$this->data['stock'] = $this->language->get('text_instock');
 			}
 			//Added by Astha to take condition of product
-                        if ($product_info['product_type']) {
+            if ($product_info['product_type']) {
 				$this->data['product_type'] = $product_info['product_type'];
 			}else {
 				$this->data['product_type'] = '';
@@ -360,13 +360,13 @@ class ControllerProductProduct extends Controller {
 				);
 			}
 			// Added by Astha
-               $Address=$this->model_catalog_product->getSellerAddress($this->request->get['product_id']);
+            $Address=$this->model_catalog_product->getSellerAddress($this->request->get['product_id']);
                                  
             //   echo "Test : ". $cities[]['city'];
               
-                        $this->data['Address'] = array() ;
+            $this->data['Address'] = array() ;
                        foreach ($Address as $add) {
-				$this->data['Address'][] = array(
+			$this->data['Address'][] = array(
                                     'firstname' => $add['firstname'],
                                     'lastname' => $add['lastname'],
                                         'city' => $add['city'],

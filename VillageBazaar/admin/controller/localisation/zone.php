@@ -440,17 +440,17 @@ class ControllerLocalisationZone extends Controller {
 			$this->error['name'] = $this->language->get('error_name');
 		}
                 
-                $this->load->model('localisation/zone');
+        $this->load->model('localisation/zone');
 		
 //		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 //		print_r($country_info)	;
-                $state_info = $this->model_localisation_zone->getZoneName($this->request->post['name']);
+        $state_info = $this->model_localisation_zone->getZoneName($this->request->post['name']);
                 
                 //print_r($city_info);
-                if($state_info != Array()){
-                   $this->error['name1'] = $this->language->get('error_same'); 
-                }
-                if ($this->request->post['country_id'] == '') {
+        if($state_info != Array()){
+            $this->error['name1'] = $this->language->get('error_same'); 
+        }
+        if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');
     	}
 		if (!$this->error) {

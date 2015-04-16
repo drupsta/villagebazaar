@@ -431,8 +431,11 @@ class ControllerLocalisationcsc extends Controller {
 		$this->load->model('localisation/country');
 		
 		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
-			if ($this->request->post['country_id'] == '') {
+		if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');
+    	}
+    	if ($this->request->post['zone_id'] == '') {
+    		$this->error['zone'] = $this->language->get('error_zone');
     	}
 
 		if (!$this->error) {

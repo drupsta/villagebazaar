@@ -3,6 +3,7 @@
 class ControllerProductPdfcatalog extends Controller {
 
     public function index() {
+    	$main_category = array();
         $this->load->config('pdf_catalog');
         $this->load->model('catalog/pdf_catalog');
         $this->load->language('module/pdf_catalog');
@@ -32,10 +33,11 @@ class ControllerProductPdfcatalog extends Controller {
                         }
                     }
                 }
-                $categories[$key]['products'] = $products;
+               $categories[$key]['products'] = $products;
             }
 
             $this->createPdf($categories);
+            
         } elseif ($this->request->get['category_id'] != "0") {
             $category = $this->model_catalog_pdf_catalog->getCategory($this->request->get['category_id']);
             $categories = $this->model_catalog_pdf_catalog->getCategories($this->request->get['category_id']);
@@ -60,7 +62,7 @@ class ControllerProductPdfcatalog extends Controller {
                     }
                 }
                 $category['products'] = $products;
-                $main_category = array($category);
+                $main_category = $category;
             }
             
                 foreach ($categories as $key => $category) {
@@ -76,26 +78,26 @@ class ControllerProductPdfcatalog extends Controller {
                     $categories[$key]['products'] = $products;
                 }
  
-$categories=array_merge($main_category,$categories);
+			$categories=array_merge($main_category,$categories);
 
 
 
-$totalproducts=0;
-foreach($categories as $k=>$categori){
-	$totalproducts=$totalproducts + count($categori['products']);
-	$productsizes[$k]=count($categori['products']);
-}
+			$totalproducts=0;
+			foreach($categories as $k=>$categori){
+					$totalproducts=$totalproducts + count($categori['products']);
+					$productsizes[$k]=count($categori['products']);
+			}
 
-while($totalproducts > $limit){
-$categories=$this->removeProduct($categories,$productsizes);
-$totalproducts-- ;
-foreach($categories as $k=>$categori){
-	$productsizes[$k]=count($categori['products']);
-}
+			while($totalproducts > $limit){
+				$categories=$this->removeProduct($categories,$productsizes);
+				$totalproducts-- ;
+				foreach($categories as $k=>$categori){
+					$productsizes[$k]=count($categori['products']);
+				}
 
-}
-
-                $this->createPdf($categories);
+			}
+            $this->createPdf($categories);
+            
             } else {
 				  if (isset($category['category_id'])) {
                 $products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
@@ -115,29 +117,29 @@ foreach($categories as $k=>$categori){
     }
 
 
-    public function removeProduct($categories,$sizes) {
+public function removeProduct($categories,$sizes) {
 
-$flipped=array_flip($sizes);
-array_multisort($flipped,SORT_DESC);
-
-$highest_value=$flipped[0];
-
-foreach($sizes as $k=>$size){ 
-
-	if($size == $highest_value){
-		array_pop($categories[$k]['products']);
+	$flipped=array_flip($sizes);
+	array_multisort($flipped,SORT_DESC);
+	
+	$highest_value=$flipped[0];
+	
+	foreach($sizes as $k=>$size){ 
+	
+		if($size == $highest_value){
+			array_pop($categories[$k]['products']);
+		}
 	}
-}
 
 
 		return $categories;
 		
 	}
 		
-		public function createPdf($pdf_data) {
+public function createPdf($pdf_data) {
         $datacount = count($pdf_data[0]);
 
-        if ($datacount > 1) {
+        if ($datacount >= 1) {
 
             //$image_width = 100;
             $image_width = (int) $this->config->get('pdf_catalog_image_width');

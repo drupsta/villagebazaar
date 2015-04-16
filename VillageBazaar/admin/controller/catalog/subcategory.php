@@ -98,11 +98,17 @@ class ControllerCatalogSubcategory extends Controller {
 		} else {
 			$this->data['error_warning'] = '';
 		}
-	
- 		if (isset($this->error['error_catname'])) {
-			$this->data['error_catname'] = $this->error['error_catname'];
+			
+		if (isset($this->error['category'])) {
+			$this->data['error_category'] = $this->error['category'];
 		} else {
-			$this->data['error_catname'] = array();
+			$this->data['error_category'] = '';
+		}
+		
+ 		if (isset($this->error['name'])) {
+			$this->data['error_name'] = $this->error['name'];
+		} else {
+			$this->data['error_name'] = '';
 		}
 
   		$this->data['breadcrumbs'] = array();
@@ -434,14 +440,23 @@ class ControllerCatalogSubcategory extends Controller {
   	
   	   
     protected function validateForm() {
-    if (!$this->user->hasPermission('modify', 'catalog/category')) {
+    	if (!$this->user->hasPermission('modify', 'catalog/category')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
 		}
-					
+		
+		if($this->request->post['parent_id'] == '') {
+			$this->error['category'] = $this->language->get('error_category');
+			 
+		}
+    	foreach ($this->request->post['category_description'] as $language_id => $value) {
+			if ((utf8_strlen($value['name']) < 2) || (utf8_strlen($value['name']) > 255)) {
+				$this->error['name'] = $this->language->get('error_name');
+			}
+		}
 		if (!$this->error) {
 			return true;
 		} else {
@@ -450,16 +465,16 @@ class ControllerCatalogSubcategory extends Controller {
 	}
         
     protected function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'catalog/category')) {
+    	if (!$this->user->hasPermission('modify', 'catalog/category')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-                $count = $this->model_catalog_category->validateSubcategory($this->request->post['category_id1']); 
-           $prod = $this->model_catalog_category->getCategoryProduct($this->request->post['product_category']); 
+        $count = $this->model_catalog_category->validateSubcategory($this->request->post['category_id1']); 
+        $prod = $this->model_catalog_category->getCategoryProduct($this->request->post['product_category']); 
 //                print_r($count);
 //                echo $count['count(*)'];
-                if ($count['count(*)']==1) {
-                    $this->error['warning'] = $this->language->get('error_count');   
-                } 
+        if ($count['count(*)']==1) {
+            $this->error['warning'] = $this->language->get('error_count');   
+        } 
            
                       //  print_r($prod);
         if($prod!=array()){

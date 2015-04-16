@@ -475,13 +475,13 @@ class ControllerLocalisationGeoZone extends Controller {
 		$this->load->model('localisation/geo_zone');
 		
 
-                $city_info = $this->model_localisation_geo_zone->getGeoZoneName($this->request->post['name']);
+    	$city_info = $this->model_localisation_geo_zone->getGeoZoneName($this->request->post['name']);
                 
                 //print_r($city_info);
                 if($city_info != Array()){
                    $this->error['name1'] = $this->language->get('error_same'); 
                 }
-                if ($this->request->post['country_id'] == '') {
+        if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');
     	}
         if ($this->request->post['zone_id'] == 0) {

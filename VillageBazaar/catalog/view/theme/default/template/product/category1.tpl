@@ -120,7 +120,7 @@
           $counter=$counter+1;
           }
          else {
-        $address="Kolkata";
+        $address="Phuentsholing";
         $counter=$counter+1;
         } 
      $address = str_replace(' ', '+', $address);
@@ -231,7 +231,7 @@
           $counter=$counter+1;
           }
          else {
-        $address="Kolkata";
+        $address="Phuentsholing";
         $counter=$counter+1;
         } 
      $address = str_replace(' ', '+', $address);

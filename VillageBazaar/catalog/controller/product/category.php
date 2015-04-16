@@ -9,15 +9,15 @@ class ControllerProductCategory extends Controller {
 		
 		$this->load->model('tool/image'); 
                 
-                $this->load->model('localisation/geo_zone'); 
+        $this->load->model('localisation/geo_zone'); 
                 
 //                if (($this->request->server['REQUEST_METHOD'] == 'GET')){
 //                    $this->redirect($this->url->link('product/category', 'path=' . $path . $url));
 //                }
 //                
-$city_name = $this->model_localisation_geo_zone->getGeoZoneByName();   
-//echo $city_name['geo_zone_id'];
-           //    $geozones=   $this->data['locations'] = $this->model_localisation_geo_zone->getGeoZones();
+		$city_name = $this->model_localisation_geo_zone->getGeoZoneByName();   
+		//echo $city_name['geo_zone_id'];
+           
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
 		} else {
@@ -50,13 +50,13 @@ $city_name = $this->model_localisation_geo_zone->getGeoZoneByName();
 		if (isset($this->request->get['location'])) {
 			$location = $this->request->get['location'];
 		} else {
-			  $location = $city_name['geo_zone_id'];
-                 }
-                 if (isset($this->request->get['product_type'])) {
+			$location = $city_name['geo_zone_id'];
+        }
+        if (isset($this->request->get['product_type'])) {
 			 $product_type = $this->request->get['product_type'];
 		} else {
 			 $product_type = '';
-                 }
+        }
               //  $arr = get_defined_vars();
                       
 		$this->data['breadcrumbs'] = array();
@@ -158,8 +158,8 @@ $city_name = $this->model_localisation_geo_zone->getGeoZoneByName();
 			$this->data['button_compare'] = $this->language->get('button_compare');
 			$this->data['button_continue'] = $this->language->get('button_continue');
 			$this->data['action'] = $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url);
-                        $this->data['entry_location'] = $this->language->get('entry_location');
-                        $this->data['text_select'] = $this->language->get('text_select');
+            $this->data['entry_location'] = $this->language->get('entry_location');
+            $this->data['text_select'] = $this->language->get('text_select');
 			// Set the last category breadcrumb		
 			$url = '';
 			if (isset($this->error['location'])) {
@@ -305,7 +305,7 @@ $city_name = $this->model_localisation_geo_zone->getGeoZoneByName();
 					$rating = false;
 				}
                                 //Added by Astha
-                                if ($result['selleraddress']) {
+                if ($result['selleraddress']) {
 				 $selleraddress = $result['selleraddress'];
                                     //  echo  $selleraddress; 
 				} else {
@@ -317,13 +317,13 @@ $city_name = $this->model_localisation_geo_zone->getGeoZoneByName();
 				} else {
 					$product_type = false;
 				}
-                                if ($result['state']) {
+               if ($result['state']) {
 				 $state = $result['state'];
       				} else {
 					$state = false;
 				}
                                 
-                                if ($result['country']) {
+                if ($result['country']) {
 				 $country = $result['country'];
       				} else {
 					$country = false;
@@ -472,19 +472,18 @@ $city_name = $this->model_localisation_geo_zone->getGeoZoneByName();
 			$this->load->model('localisation/geo_zone');
 		
     // $geozones= $this->data['locations'] = $this->model_localisation_geo_zone->getGeoZones();
-      $locations=  $this->model_localisation_geo_zone->getGeoZones();
+      		$locations=  $this->model_localisation_geo_zone->getGeoZones();
                                                                                                    
                      
 		//	$this->data['location'] = array();  
                    
-                       foreach ($locations as $locations) {
-                        $this->data['locations'][] = array(
-                           
-				'name'  => $locations['name'],
+           foreach ($locations as $locations) {
+                $this->data['locations'][] = array(
+                           	'name'  => $locations['name'],
                             'value' => $locations['geo_zone_id'], 
-			'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] .$url. '&location=' . $locations['geo_zone_id'] )
-			 );
-                  //     print_r($locations);
+							'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] .$url. '&location=' . $locations['geo_zone_id'] )
+			 				);
+                 //print_r($locations['geo_zone_id']);
                        }
                  //  $this->data['geozones'] = array();
                   //       print_r(get_defined_vars());
@@ -564,8 +563,8 @@ $city_name = $this->model_localisation_geo_zone->getGeoZoneByName();
 		
 			$this->data['pagination'] = $pagination->render();
 		
-		$this->data['location'] = $location;
-               $this->data['product_type'] = $product_type;
+			$this->data['location'] = $location;
+            $this->data['product_type'] = $product_type;
                         $this->data['sort'] = $sort;
 			$this->data['order'] = $order;
 			$this->data['limit'] = $limit;

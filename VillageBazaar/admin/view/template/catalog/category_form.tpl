@@ -25,7 +25,7 @@
                 <td><span class="required">*</span> <?php echo $entry_name; ?></td>
                 <td><input type="text" name="category_description[<?php echo $language['language_id']; ?>][name]" size="100" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['name'] : ''; ?>" />
                   <?php if (isset($error_name[$language['language_id']])) { ?>
-                  <span class="error"><?php echo $error_name[$language['language_id']]; ?></span>
+                  <span class="error"><?php echo $error_name; ?></span>
                   <?php } ?></td>
               </tr>
               

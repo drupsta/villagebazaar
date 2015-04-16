@@ -9,7 +9,7 @@ class ModelLocalisationGeoZone extends Model {
 
 	public function getGeoZones($data = array()) {
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "geo_zone where country_id=99 ";
+			$sql = "SELECT * FROM " . DB_PREFIX . "geo_zone where country_id = 25 ";
 	
 			$sort_data = array(
 				'name',
@@ -47,7 +47,7 @@ class ModelLocalisationGeoZone extends Model {
 			$geo_zone_data = $this->cache->get('geo_zone');
 
 			if (!$geo_zone_data) {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "geo_zone where country_id=99 ORDER BY name ASC");
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "geo_zone where country_id=25 ORDER BY name ASC");
 	
 				$geo_zone_data = $query->rows;
 			
@@ -87,8 +87,8 @@ class ModelLocalisationGeoZone extends Model {
 		
 		return $query->row['total'];
 	}
-        public function getGeoZoneByName() {
-      	$query = $this->db->query("SELECT geo_zone_id FROM " . DB_PREFIX . "geo_zone WHERE name='Kolkata'");
+    public function getGeoZoneByName() {
+      	$query = $this->db->query("SELECT geo_zone_id FROM " . DB_PREFIX . "geo_zone WHERE name='Phuentsholing'");
 		
 		return $query->row;
 	}

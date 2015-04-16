@@ -23,7 +23,7 @@
           </tr> -->
           <tr>
             <td><span class="required">*</span><?php echo "Select Country:"; ?></td>
-            <td><select name="country_id">
+            <td><select name="country_id" id="country_id">
                     <option value="">--Please Select--</option>
                 <?php foreach ($countries as $country) { ?>
                 <?php if ($country['country_id'] == $country_id) { ?>
