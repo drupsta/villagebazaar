@@ -52,12 +52,28 @@
               			<?php } ?>
           			</td>
            		</tr>
-       			<tr>
+        		<tr>
           			<td><span class="required">*</span> <?php echo "Select Subcategory"; ?></td>
           			<td><select name="product_category" id="product_category">
-              			<option value="*" ><?php echo $text_select;?></option>
+              			<option value="*" ><?php if(isset($this->request->get['product_id']))
+                        						{		
+                                            		echo $update_subcategory;
+                                                    
+			
+                                            			
+                                                     
+                                           		 } 
+                                            
+                                            else
+                                            {
+                                            		echo $text_select;
+                                            }
+                                            
+                                            ?></option></select>
        				</td>
         		</tr>		
+        		
+        		
 			
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_name; ?></td>
