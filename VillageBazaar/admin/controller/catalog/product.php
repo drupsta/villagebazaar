@@ -91,7 +91,10 @@ class ControllerCatalogProduct extends Controller {
     	$this->document->setTitle($this->language->get('heading_title'));
 		
 		$this->load->model('catalog/product');
-		
+	//Added by Manoj 
+	$value=$this->request->get['product_id'];
+	$this->data['update_subcategory']=$this->model_catalog_product->getUpdateSubcategory($value);
+	//Finish Adding		
 			
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
