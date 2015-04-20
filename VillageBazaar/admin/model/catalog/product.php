@@ -801,6 +801,21 @@ $_SESSION['userid']=$this->user->getId();
 			$query = $this->db->query($sql);
 			return $query->row['category_id'];
 		}
+		
+		public function getUpdateSubcategory($product_id)
+		{
+			$categoryId=$this->getCidFromProductId($product_id);
+			$sql ="SELECT name, category_id  as category_id FROM " . DB_PREFIX . "category_description  where category_id=".$categoryId;
+			$query = $this->db->query($sql);
+			return $query->row['name'];
+			
+		}
+		public function getCidFromProductId($product_id)
+		 {
+			 $sql ="SELECT * FROM  " . DB_PREFIX . "product_to_category WHERE product_id =".$product_id;
+			$query = $this->db->query($sql);
+			return $query->row['category_id'];
+		 }
 		 
 }
 ?>
