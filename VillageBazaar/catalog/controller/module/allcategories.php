@@ -57,48 +57,40 @@ class ControllerModuleAllCategories extends Controller {
 //			);	
 //		}
 		foreach($categories as $category){
-			//$total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category['category_id']));
-            $total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category['category_id']));
-			$subcategories = $this->model_catalog_category->getCategories($category['category_id']);
 			
-                        foreach($subcategories as $subcategory){
+			$subcategories = $this->model_catalog_category->getCategories($category['category_id']);
+			$total = 0;
+			//$total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category['category_id']));
+						
+            foreach($subcategories as $subcategory){
 				$img		=	$this->model_tool_image->resize($subcategory['image'], 20, 20);
-				$URL			=	$this->model_catalog_allcategories->getUrlCategory($subcategory['category_id']);
-				//if($URL['keyword']==""){
-					$RealUrl	=	$this->url->link('product/category','path='.$category['category_id'].'_'.$subcategory['category_id']);
-					//}else{
-					//$RealUrl	=	HTTP_SERVER.$URL['keyword'];
-				//}
-                                        $data = array(
+				$URL		=	$this->model_catalog_allcategories->getUrlCategory($subcategory['category_id']);
+				$RealUrl	=	$this->url->link('product/category','path='.$category['category_id'].'_'.$subcategory['category_id']);
+				$data = array(
 					'filter_category_id'  => $subcategory['category_id'],
 					'filter_sub_category' => true
 				);
-                                        $product_total = $this->model_catalog_product->getTotalProducts($data);
+                $product_total = $this->model_catalog_product->getTotalProducts($data);
 
-			$total += $product_total;
-				$subcats[]	=	array(
-				'name'			=> $subcategory['name'].($this->config->get('config_product_count') ? ' (' . $product_total . ')' : ''),
-				'image'			=> $img,
-				'id'			=> $subcategory['category_id'],
-				'url'			=> $RealUrl
+				$total += $product_total;
+					$subcats[]	=	array(
+					'name'			=> $subcategory['name'].($this->config->get('config_product_count') ? ' (' . $product_total . ')' : ''),
+					'image'			=> $img,
+					'id'			=> $subcategory['category_id'],
+					'url'			=> $RealUrl
+					);
+				}
+				$URL			=	$this->model_catalog_allcategories->getUrlCategory($category['category_id']);
+				$RealUrl		=	$this->url->link('product/category','path='.$category['category_id']);
+				$img			=	$this->model_tool_image->resize($category['image'], 250, 150);
+				$cats[]=array(
+					'name'			=> $category['name'].($this->config->get('config_product_count') ? ' (' . $total . ')' : ''),    
+	                            //'image'			=> $img,
+					'id'			=> $category['category_id'],
+					'url'			=> $RealUrl,
+					'subcats'		=> $subcats
 				);
-			}
-			$URL			=	$this->model_catalog_allcategories->getUrlCategory($category['category_id']);
-			//if($URL['keyword']==""){
-				$RealUrl	=	$this->url->link('product/category','path='.$category['category_id']);
-				//}else{
-				//$RealUrl	=	HTTP_SERVER.$URL['keyword'];
-			//}
-			$img			=	$this->model_tool_image->resize($category['image'], 250, 150);
-			$cats[]=array(
-			//'name'			=> $category['name'],
-                         'name'			=> $category['name'].($this->config->get('config_product_count') ? ' (' . $total . ')' : ''),    
-                            //'image'			=> $img,
-			'id'			=> $category['category_id'],
-			'url'			=> $RealUrl,
-			'subcats'		=> $subcats
-			);
-			$subcats		=	'';
+				$subcats		=	'';
 		}
 		$this->data['cats']		=	$cats;
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/allcategories.tpl')) {

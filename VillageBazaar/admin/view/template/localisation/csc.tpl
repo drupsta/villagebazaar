@@ -34,10 +34,16 @@
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $text_select_dzongkhag; ?></td>
-          <td><select name="zone_id" id="zone_id">
-         
-		 <option value="<?php echo $zone_id; ?>"></option>
-        </select>
+          <td><select name="zone_id" id="zone_id">         
+		 			<option value="<?php echo $zone_id; ?>"></option>
+					<?php foreach ($zones as $zone) { ?>
+              			<?php if ($zone['zone_id'] == $zone_id) { ?>
+              				<option value="<?php echo $zone['zone_id']; ?>" selected="selected"><?php echo $zone['name']; ?></option>
+              			<?php } else { ?>
+              			<option value="<?php echo $zone['zone_id']; ?>"><?php echo $zone['name']; ?></option>
+              			<?php } ?>
+              		<?php } ?>
+        		</select>
             <?php if ($error_zone) { ?>
             <span class="error"><?php echo $error_zone; ?></span>
             <?php } ?></td>

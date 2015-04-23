@@ -131,9 +131,7 @@
           	<?php if($cat['name']) { ?>
 				<article  class="portfolio-item">
                 	
-					<a rel="gallery" href="<?php echo $cat['url'] ?>" title="Portfolio Item Title">
-					
-					</a>
+					<a rel="gallery" href="<?php echo $cat['url'] ?>" title="Portfolio Item Title"></a>
 					<p class="portfolio-item-meta">
 						<a class="link" href="<?php echo $cat['url'] ?>"><?php echo $cat['name'] ?></a>
 					</p>

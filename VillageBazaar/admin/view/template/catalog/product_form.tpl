@@ -57,17 +57,13 @@
           			<td><select name="product_category" id="product_category">
               			<option value="*" ><?php if(isset($this->request->get['product_id']))
                         						{		
-                                            		echo $update_subcategory;
-                                                    
-			
-                                            			
+                                            		echo $update_subcategory;                                      			
                                                      
-                                           		 } 
-                                            
-                                            else
-                                            {
+                                           		 }                                             
+                                            	else
+                                            	{
                                             		echo $text_select;
-                                            }
+                                            	}
                                             
                                             ?></option></select>
        				</td>
@@ -149,38 +145,10 @@
                 <?php } ?></td>
             </tr>
 			
-			 <tr>
-            <td> <?php echo $entry_currency;?></td>
-              <td><select name="currency">   
-                                 
-                      <?php
-$curr_val=array("1"=>"----Please Select------","Bhutan" => "BTN 
-(Bhutan Ngultrum)");
-foreach($curr_val as $cval=>$cval1)
-                     {
-                     if($cval==$_POST['currency'])
-                     {
-                     echo "<option selected value=$cval>$cval1</option>";
-                     }
-                     else
-                     {
-                     echo "<option value=$cval>$cval1</option>";
-                     }
-                     }
-                      ?>
-                      
-            <!--   <option value=""><?php echo $text_select; ?></option>
-               <option value="INR"><?php echo $entry_INR; ?></option>
-               <option value="Bangla"><?php echo $entry_bangla; ?></option>
-               <option value="Nepal"><?php echo $entry_nepal; ?></option>
-               <option value="Bhutan"><?php echo $entry_bhutan; ?></option>--->
-                </select></td>  
-            </tr>
-			
-			   <tr>
+			<tr>
                 <td><span class="required">*</span> <?php echo $entry_price; ?></td>
               <!--  <td><input type="text" name="price" value="<?php echo $price; ?>" onKeyPress="return restrictChars(event, this)" />-->
-                    <td><input type="text" name="price" value="<?php echo $price; ?>" />
+                    <td><?php echo $default_currency.". ";?><input type="text" name="price" value="<?php echo $price; ?>" />
                 <?php if ($error_price) { ?>
               <span class="error"><?php echo $error_price; ?></span>
               <?php } ?></td>
@@ -189,11 +157,9 @@ foreach($curr_val as $cval=>$cval1)
               <td><?php echo $entry_quantity; ?></td>
               <td><input type="text" name="quantity" value="<?php echo $quantity; ?>" size="20" onKeyPress="return AcceptNumericOnly(event, this)"/> 
                   </td>
-            </tr>
-
-          
+            </tr>         
        
-	 <tr>
+	 	<tr>
             <td><span class="required">*</span>  <?php echo $entry_duration; ?></td>
               <td><select name="price_duration_id" id="price_duration_id">   
                <option value=""><?php echo $text_select; ?></option>               

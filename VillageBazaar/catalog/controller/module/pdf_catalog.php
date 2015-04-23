@@ -17,7 +17,7 @@ class ControllerModulePdfcatalog extends Controller {
 		if($this->config->get('pdf_catalog_display_categories') == 1){
 			$categories = $this->model_catalog_pdf_catalog->getCategories(0);
 		}else{
-		$categories = null;
+			$categories = null;
 		}
 		$this->data['categories']= $categories;
 		

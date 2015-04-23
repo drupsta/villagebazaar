@@ -34,7 +34,7 @@
 	<!--  <a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a>-->
           <a href="<?php echo $insert; ?>" class="button"><?php echo "Advertise"; ?></a>
 	  
-	  <a onclick="$('form').submit();" class="button"><?php echo $button_delete; ?></a>
+	  <a onclick="$('#form').submit();" class="button"><?php echo $button_delete; ?></a>
 	  </div>
     </div>
       <div class="pagination"><?php echo $pagination; ?></div>

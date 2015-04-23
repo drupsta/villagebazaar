@@ -478,13 +478,14 @@ class ControllerLocalisationGeoZone extends Controller {
     	$city_info = $this->model_localisation_geo_zone->getGeoZoneName($this->request->post['name']);
                 
                 //print_r($city_info);
-                if($city_info != Array()){
-                   $this->error['name1'] = $this->language->get('error_same'); 
-                }
+        if($city_info != Array()){
+             $this->error['name1'] = $this->language->get('error_same'); 
+        }
+        
         if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');
     	}
-        if ($this->request->post['zone_id'] == 0) {
+        if ($this->request->post['zone_id'] == '') {
       		$this->error['zone'] = $this->language->get('error_zone');
     	}
 
@@ -524,24 +525,22 @@ class ControllerLocalisationGeoZone extends Controller {
 		$output = '<option value="0">' . $this->language->get('text_all_zones') . '</option>';
 		
 		$this->load->model('localisation/zone');
-		//$this->load->model('localisation/geo_zone');
+		
 		$results= $this->model_localisation_zone->getZonesByCountryId($this->request->post['country_id']);
-               // $results= $this->model_localisation_geo_zone->getStatesByCountryId($this->request->post['country_id']);
+		
 		foreach ($results as $result) {
 			$output .= '<option value="' . $result['zone_id'] . '"';
 
-			if ($this->request->get['filter_zone_id'] == $result['zone_id']) {
+			if ($this->request->get['zone_id'] == $result['zone_id']) {
 				$output .= ' selected="selected"';
 			}
 
 			$output .= '>' . $result['name'] . '</option>';
 		}
-
+			
 		$this->response->setOutput($output);
-		
-		
-	}
-	
+				
+	}	
 			
 }
 

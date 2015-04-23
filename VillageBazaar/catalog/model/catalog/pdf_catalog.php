@@ -109,5 +109,13 @@ class ModelCatalogPdfcatalog extends Model {
 								  
 		return $query->rows;
 	} 
+	//added by Tandin
+	public function getCategoryParentID($category_id)
+	{
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category WHERE category_id = '" . (int)$category_id .  "'");
+		
+		return $query->row['parent_id'];
+		
+	}
 }
 ?>

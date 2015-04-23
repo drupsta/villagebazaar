@@ -29,11 +29,11 @@
 <script type="text/javascript">
 	function fn_pdf_category(category_id)
 	{
-	if(category_id != "")
-{
-window.open('<?php echo $pdf_catalog_href;?>'+category_id, 'window_pdf', 'width=800, height=600, toolbar=1, resizable=1');
-}
-}
+		if(category_id != "")
+		{
+			window.open('<?php echo $pdf_catalog_href;?>'+category_id, 'window_pdf', 'width=800, height=600, toolbar=1, resizable=1');
+		}
+	}
 </script>
 </div>
 

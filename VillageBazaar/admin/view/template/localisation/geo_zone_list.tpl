@@ -35,7 +35,7 @@
                   <?php } ?>
                 </select></td>
               <td>Select Dzongkhag: <select name="filter_zone_id" id="filter_zone_id">
-                <option value="*">--None Selected--</option>
+                <option value="*">--All Dzongkhags--</option>
                  <?php foreach ($zones as $zone) { ?>
                   <?php if ($zone['zone_id'] == $filter_zone_id) { ?>
                     <option value="<?php echo $zone['zone_id']; ?>" selected="selected"><?php echo $zone['name']; ?></option>

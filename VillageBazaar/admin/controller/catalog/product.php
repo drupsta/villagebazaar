@@ -91,10 +91,10 @@ class ControllerCatalogProduct extends Controller {
     	$this->document->setTitle($this->language->get('heading_title'));
 		
 		$this->load->model('catalog/product');
-	//Added by Manoj 
-	$value=$this->request->get['product_id'];
-	$this->data['update_subcategory']=$this->model_catalog_product->getUpdateSubcategory($value);
-	//Finish Adding		
+		//Added by Manoj 
+		$value=$this->request->get['product_id'];
+		$this->data['update_subcategory']=$this->model_catalog_product->getUpdateSubcategory($value);
+		//Finish Adding		
 			
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
@@ -1516,7 +1516,7 @@ class ControllerCatalogProduct extends Controller {
 		 $this->load->model('catalog/product');
 		
 		$this->data['price_duration'] = $this->model_catalog_product->getPriceDuration();
-		$this->data['filter_category_id'] = $filter_category;
+		//$this->data['filter_category_id'] = $filter_category;
 		$this->data['filter_parent_id'] = $filter_parent;
                 
     	
@@ -1530,6 +1530,7 @@ class ControllerCatalogProduct extends Controller {
 		
 		$this->data['layouts'] = $this->model_design_layout->getLayouts();
 		$this->data['c_category']=$this->model_catalog_product->get_ccategory();
+		$this->data['default_currency'] = $this->config->get('config_currency');
 										
 		$this->template = 'catalog/product_form.tpl';
 		$this->children = array(

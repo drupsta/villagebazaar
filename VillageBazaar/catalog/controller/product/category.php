@@ -265,8 +265,8 @@ class ControllerProductCategory extends Controller {
 				'order'              => $order,
 				'start'              => ($page - 1) * $limit,
 				'limit'              => $limit,
-                                'location'           => $location,
-                                'product_type'       => $product_type
+                'location'           => $location,
+                'product_type'       => $product_type
 			);
 			$product_total = $this->model_catalog_product->getTotalProducts($data); 
 			
@@ -282,19 +282,19 @@ class ControllerProductCategory extends Controller {
 				}
 				
 				if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')),'Nu.');
 				} else {
 					$price = false;
 				}
 				
 				if ((float)$result['special']) {
-					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')));
+					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')),'Nu.');
 				} else {
 					$special = false;
 				}	
 				
 				if ($this->config->get('config_tax')) {
-					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price']);
+					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'],'Nu.');
 				} else {
 					$tax = false;
 				}				
@@ -338,10 +338,10 @@ class ControllerProductCategory extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'rating'      => $result['rating'],
-                                        'selleraddress' => $result['selleraddress'],
-                                        'product_type' => $result['product_type'],
-                                         'state' => $result['state'],
-                                         'country'=> $result['country'],
+                    'selleraddress' => $result['selleraddress'],
+                    'product_type' => $result['product_type'],
+                    'state' => $result['state'],
+                    'country'=> $result['country'],
 					'reviews'     => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
 					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
 				);

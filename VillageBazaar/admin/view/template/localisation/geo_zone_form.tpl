@@ -22,11 +22,11 @@
 				<select name="country_id" id="country_id">
               		<option value=""><?php echo $text_select; ?></option>
               		<?php foreach ($countries as $country) { ?>
-              		<?php if ($country['country_id'] == $country_id) { ?>
-              		<option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
-              		<?php } else { ?>
-              		<option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
-              		<?php } ?>
+              			<?php if ($country['country_id'] == $country_id) { ?>
+              				<option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+              			<?php } else { ?>
+              			<option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+              			<?php } ?>
               		<?php } ?>
            	 	</select>
             	<?php if ($error_country) { ?>
@@ -36,13 +36,19 @@
         </tr>
         <tr>
          <td><span class="required">*</span> <?php echo "Select ".$entry_zone; ?></td>
-          	<td><select name="zone_id" id="zone">
-         
-		 <option value="<?php echo $zone_id; ?>"></option>
-        </select>
-            <?php if ($error_zone) { ?>
-            <span class="error"><?php echo $error_zone; ?></span>
-            <?php } ?>
+          	<td><select name="zone_id" id="zone_id">
+					<option value="<?php echo $zone_id; ?>" ><?php echo $text_select; ?></option>
+					<?php foreach ($zones as $zone) { ?>
+              			<?php if ($zone['zone_id'] == $zone_id) { ?>
+              				<option value="<?php echo $zone['zone_id']; ?>" selected="selected"><?php echo $zone['name']; ?></option>
+              			<?php } else { ?>
+              			<option value="<?php echo $zone['zone_id']; ?>"><?php echo $zone['name']; ?></option>
+              			<?php } ?>
+              		<?php } ?>
+				</select>
+            	<?php if ($error_zone) { ?>
+            		<span class="error"><?php echo $error_zone; ?></span>
+           	 	<?php } ?>
 			</td>
         </tr>
         <tr>
@@ -62,18 +68,18 @@
 $("#country_id").change(function(){
 	//alert('test');							 
 	var postForm = { 
-            'country_id'  : $(this).val()
-            
+            'country_id'  : $(this).val(),
+			  
         };
 $.ajax({
         type: 'post',
-        url: 'index.php?route=localisation/geo_zone/getState&token=<?php echo $token; ?>',
+        url: 'index.php?route=localisation/geo_zone/getState&zone_id=<?php echo $zone_id ?>&token=<?php echo $token; ?>',
         dataType: 'html',
         data: postForm,
         success: function (data)		
 		{
-		//alert(html);
-		$('#zone').html(data); 
+		//alert(data);
+		$('#zone_id').html(data); 
 		
        }
     });

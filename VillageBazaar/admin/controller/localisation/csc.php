@@ -51,28 +51,28 @@ class ControllerLocalisationcsc extends Controller {
 		
 		$this->load->model('localisation/csc');
 		if(!isset($_POST['logout']) && !isset($_POST['home'])){
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_localisation_csc->editGeoZone($this->request->get['csc_id'], $this->request->post);
+			if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+				$this->model_localisation_csc->editGeoZone($this->request->get['csc_id'], $this->request->post);
 
-			$this->session->data['success'] = $this->language->get('text_success');
+				$this->session->data['success'] = $this->language->get('text_success');
 
-			$url = '';
+				$url = '';
 			
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
+				if (isset($this->request->get['sort'])) {
+					$url .= '&sort=' . $this->request->get['sort'];
+				}
 
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
+				if (isset($this->request->get['order'])) {
+					$url .= '&order=' . $this->request->get['order'];
+				}
 
-			if (isset($this->request->get['page'])) {
+				if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
-			}
+				}
 			
-			$this->redirect($this->url->link('localisation/csc', 'token=' . $this->session->data['token'] . $url, 'SSL'));
-		}
-                }
+				$this->redirect($this->url->link('localisation/csc', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			}
+        }
 		$this->getForm();
 	}
 
@@ -271,6 +271,14 @@ class ControllerLocalisationcsc extends Controller {
 	}
 
 	protected function getForm() {
+		
+		if (isset($this->request->get['country_id'])) {
+			$country_id = $this->request->get['country_id'];
+		} else {
+			$country_id = 25;
+		}
+		
+		
 		$this->data['heading_title'] = $this->language->get('heading_title');
 				
 		$this->data['entry_name'] = $this->language->get('entry_name');
@@ -368,7 +376,7 @@ class ControllerLocalisationcsc extends Controller {
 		} elseif (!empty($csc_info)) {
 			$this->data['country_id'] = $csc_info['country_id'];
 		} else {
-			$this->data['country_id'] = '';
+			$this->data['country_id'] = $country_id;
 		}
 		
 				
@@ -403,8 +411,10 @@ class ControllerLocalisationcsc extends Controller {
 		}
 		
 		$this->load->model('localisation/country');
+		$this->load->model('localisation/zone');
 		 
         $this->data['countries'] = $this->model_localisation_country->getCountries();
+        $this->data['zones'] = $this->model_localisation_zone->getZonesByCountryId($country_id);
 
 		$this->template = 'localisation/csc.tpl';
 		$this->children = array(
