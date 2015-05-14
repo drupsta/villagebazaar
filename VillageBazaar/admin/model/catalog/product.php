@@ -816,6 +816,21 @@ $_SESSION['userid']=$this->user->getId();
 			$query = $this->db->query($sql);
 			return $query->row['category_id'];
 		 }
+		  public function getCondition($product_id)
+		 {
+			 $sql ="SELECT product_type as product_type FROM  " . DB_PREFIX . "product WHERE product_id =".$product_id;
+			$query = $this->db->query($sql);
+			return $query->row['product_type'];
+			 
+		 }
+		 public function getDuration($product_id)
+		 {
+			 
+			 $sql ="SELECT price_duration_id as price_duration_id FROM  " . DB_PREFIX . "product WHERE product_id =".$product_id;
+			$query = $this->db->query($sql);
+			return $query->row['price_duration_id'];
+			 
+		 }
 		 
 }
 ?>
