@@ -1817,9 +1817,7 @@ class ControllerCatalogProduct extends Controller {
 		//print_r($results);
 		foreach ($results as $result) {
 			$output .= '<option value="' . $result['category_id'] . '"';
-			if ($this->data['filter_parent_id'] == $result['category_id']) {
-				$output .= ' selected="selected"';
-			}
+			
 			$output .= '>' . $result['name'] . '</option>';
 		}
 
