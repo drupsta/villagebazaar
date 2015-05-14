@@ -94,6 +94,8 @@ class ControllerCatalogProduct extends Controller {
 		//Added by Manoj 
 		$value=$this->request->get['product_id'];
 		$this->data['update_subcategory']=$this->model_catalog_product->getUpdateSubcategory($value);
+		$this->data['condition']=$this->model_catalog_product->getCondition($value);
+		$this->data['duration']=$this->model_catalog_product->getDuration($value);
 		//Finish Adding		
 			
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
