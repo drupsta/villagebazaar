@@ -111,13 +111,34 @@
 	
                                       <tr>
             <td>  <?php echo "Product Condition:"; ?></td>
-              <td><select name="product_type" >   
-               <option value=""><?php echo "--Please Select--"; ?></option>               
+              <td><select name="product_type" > 
+                      
                  
               
-                  <option  value="new"<?php echo(isset($_POST['product_type'])&&($_POST['product_type']=='new')?' selected="selected"':'');?>>New</option>
-                	
-                  <option value="used"<?php echo(isset($_POST['product_type'])&&($_POST['product_type']=='used')?' selected="selected"':'');?>>Used</option>
+                 
+
+              <?php if(isset($this->request->get['product_id']))
+              {
+              		echo '<option value="'.$condition.'" selected="selected">'.$condition.'</option>    ';
+                    if($condition=="new")
+                    {
+                   		 echo  '<option value="used">Used</option>';
+                    }
+                    else
+                    {
+                    	echo '<option  value="new">New</option>';
+                    }
+              		
+              }
+              else
+              {
+                 	echo '<option value="">--Please Select--</option>';       
+                   	echo '<option  value="new">New</option>';
+                	echo  '<option value="used">Used</option>';
+              }
+             
+                  ?>
+                                            	
                     </select> 
                   <!--<?php if ($error_product_type) { ?>
             <span class="error"><?php echo $error_product_type; ?></span>
@@ -162,15 +183,42 @@
 	 	<tr>
             <td><span class="required">*</span>  <?php echo $entry_duration; ?></td>
               <td><select name="price_duration_id" id="price_duration_id">   
-               <option value=""><?php echo $text_select; ?></option>               
-                  <?php foreach ($price_duration as $price_dur) { ?>
-                  <?php if ($price_dur['value'] ==$_POST['price_duration_id']) { ?>
-                  <option selected value="<?php echo $price_dur['value']; ?>" ><?php echo $price_dur['title']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $price_dur['value']; ?>"><?php echo $price_dur['title']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select><input type="submit" name="refresh" value="Refresh" class="button" />	
+              		
+                    <?php if(isset($this->request->get['product_id']))
+              {
+              		echo '<option value="'.$duration.'" selected="selected">'.$duration.'</option>    ';
+                    if($duration=="1")
+                    {
+                   		 echo  '<option value="2">2</option>';
+                         echo  '<option value="3">3</option>';
+                    }
+                    if($duration=="2")
+                    {
+                    	echo  '<option value="1">1</option>';
+                         echo  '<option value="3">3</option>';
+                    }
+                     else if($duration=="3")
+                    {
+                    	echo  '<option value="1">1</option>';
+                         echo  '<option value="2">2</option>';
+                    }
+              		
+              }
+              else
+              {
+                 	echo '<option value="">--Please Select--</option>';       
+                   	echo '<option  value="1">1</option>';
+                	echo  '<option value="2">2</option>';
+                    echo  '<option value="3">3</option>';
+              }
+             
+                  ?>
+                                            	 
+                    
+              
+                </select>
+                
+                <input type="submit" name="refresh" value="Refresh" class="button" />	
                   
 				 <?php if ($error_duration) { ?>
             <span class="error"><?php echo $error_duration; ?></span>
