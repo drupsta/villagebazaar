@@ -140,7 +140,8 @@
                   ?>
                                             	
                     </select> 
-                  <!--<?php if ($error_product_type) { ?>
+                  
+			<!--<?php if ($error_product_type) { ?>
             <span class="error"><?php echo $error_product_type; ?></span>
             <?php } ?>-->
 			</td>  
@@ -220,7 +221,7 @@
                 
                 <input type="submit" name="refresh" value="Refresh" class="button" />	
                   
-				 <?php if ($error_duration) { ?>
+			<?php if ($error_duration) { ?>
             <span class="error"><?php echo $error_duration; ?></span>
             <?php } ?>			
 			</td>  
@@ -264,13 +265,13 @@
             </tr>-->
 			
 			
-			    <tr>
+			<tr>
               <td><?php echo $entry_image; ?></td>
               <td><div class="image"><div id="simple-image-upload" ><img src="<?php echo $thumb; ?>" alt="" id="thumb" /></div>
                   <input type="hidden" name="image" value="<?php echo $image; ?>" id="image" />
-                  
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?php echo $text_clear; ?></a>
+                 <a onclick="image_upload('image', 'thumb');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;&nbsp;<a onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?php echo $text_clear; ?></a>
                  </div><span style="color:blue">(Supported Image Formats are jpg, jpeg, gif, png.)</span></td>
+				
            </tr>
           
             <tr>
