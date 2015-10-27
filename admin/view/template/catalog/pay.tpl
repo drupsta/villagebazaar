@@ -36,8 +36,16 @@ echo "<div class=success><b>Payment has been canceled and Product is not visible
      <div class="succ"><center> <h1>Product details have been saved click on pay button to continue  </h1><pre>
 </div><pre>         
 <form method="post" action="">
-     <input type="submit" class="b1" name="pay" value="pay" /> <b>OR</b> <input type="submit" class="b1" name="no" value="no" />     </center>
-</form> 
+                                                                          <input type="submit" class="b1" name="pay" value="pay" /> <b>OR</b> <input type="submit" class="b1" name="no" value="no" />     </center>
+
+
+</form>
+
+                                                   
+
+
+
+	 
     </div>
   </div>
 </div>

@@ -97,7 +97,7 @@ class ModelReportProduct extends Model {
 		return $query->row['total'];
 	}
 	
-public function getProductsAdvertised($data = array()) {
+	public function getProductsAdvertised($data = array()) {
 		$sql = "SELECT pd.name, u.username as manufacturer_name, c.name as country, z.name as zone, ce.name as cec, DATE(p.date_added) as date_added, price from " . DB_PREFIX . "product p, " . DB_PREFIX . "product_description pd, " . DB_PREFIX . "user u, " . DB_PREFIX . "country c, " . DB_PREFIX . "zone z, " . DB_PREFIX . "csc_detail ce where user_group_id = 11 and p.product_id = pd.product_id and p.user_id=u.user_id and z.zone_id=u.zone_id and c.country_id=u.country_id and p.status=1 and ce.csc_id=u.csc_id";
 		
 		
@@ -175,7 +175,7 @@ public function getProductsAdvertised($data = array()) {
 	}
         
         // Expired products
-public function getProductsExpiry($data = array()) {
+        	public function getProductsExpiry($data = array()) {
 		$sql = "SELECT pd.name, u.username as manufacturer_name, DATE(p.date_added) as date_added, DATE(p.date_expiry) as date_expiry, price from " . DB_PREFIX . "product p, " . DB_PREFIX . "product_description pd, " . DB_PREFIX . "user u where user_group_id = 11 and p.product_id = pd.product_id and p.user_id=u.user_id and p.status=1 and date_expiry>=NOW() ";
 		
 		
@@ -223,7 +223,7 @@ public function getProductsExpiry($data = array()) {
         
         // Active sellers
         
-public function getactivesellers($data) {
+        public function getactivesellers($data) {
       	$sql = "select username as name, count(*) as cnt,z.name as zone, ce.name as cec, DATE(p.date_added) as date_added from " . DB_PREFIX . "user u, " . DB_PREFIX . "zone z, " . DB_PREFIX . "product p, " . DB_PREFIX . "csc_detail ce where p.user_id=u.user_id and z.zone_id=u.zone_id and ce.csc_id=u.csc_id ";
 
 		if (!empty($data['filter_manufacturer_name'])) {
@@ -253,7 +253,7 @@ public function getactivesellers($data) {
 //		}
                 
                 
-         if (!empty($data['filter_zone'])) {
+                 if (!empty($data['filter_zone'])) {
              if(is_numeric($data['filter_zone'])){
 			$sql .= " AND z.zone_id = '" . $this->db->escape($data['filter_zone']) . "'";
 		}else {
@@ -292,8 +292,8 @@ public function getactivesellers($data) {
 		return $query->rows;
 	}
         
-public function getusersprofile($data) {
-      	$sql = "select u.username as name, CONCAT(c.firstname, ' ', c.lastname) AS fullname, c.email as email,c.telephone as mobile, ug.name as usergroup, z.name as zone, ce.name as cec, DATE(u.date_added) as date_added from ". DB_PREFIX ."user u, ". DB_PREFIX ."user_group ug, ". DB_PREFIX ."customer c, ". DB_PREFIX ."zone z,  ". DB_PREFIX ."csc_detail ce where c.username=u.username and z.zone_id=u.zone_id and ce.csc_id=u.csc_id and ug.user_group_id=u.user_group_id ";
+        public function getusersprofile($data) {
+      	$sql = "select u.username as name, CONCAT(c.firstname, ' ', c.lastname) AS fullname, c.email as email,c.telephone as mobile, ug.name as usergroup, z.name as zone, ce.name as cec, DATE(u.date_added) as date_added from oc_user u, oc_user_group ug, oc_customer c, oc_zone z,  oc_csc_detail ce where c.username=u.username and z.zone_id=u.zone_id and ce.csc_id=u.csc_id and ug.user_group_id=u.user_group_id ";
 
 		if (!empty($data['filter_manufacturer_name'])) {
                     if(is_numeric($data['filter_manufacturer_name'])){
@@ -333,38 +333,6 @@ public function getusersprofile($data) {
 		// $sql .= "group by p.user_id order by cnt desc";
 		$query = $this->db->query($sql);
 				
-		return $query->rows;
-	}
-	public function getViewedProducts()
-	{
-		$sql= "SELECT pd.name as name, p.model, p.viewed as viewed FROM ".DB_PREFIX ."product p LEFT JOIN ". DB_PREFIX ."product_description pd ON (p.product_id = pd.product_id) WHERE  p.viewed > 0 ORDER BY p.viewed DESC";
-		$query = $this->db->query($sql);
-		
-		return $query->rows;
-	} 
-	public function getProducts()
-	{
-		$sql= "SELECT name, price, date(date_added) AS date_added FROM ". DB_PREFIX ."product p, ". DB_PREFIX ."product_description pd, ". DB_PREFIX ."product_to_category pc where p.product_id=pd.product_id and pc.product_id=pd.product_id";
-		$query = $this->db->query($sql);
-	
-		return $query->rows;
-	}
-	public function getRecentProducts()
-	{
-		$sql = "SELECT pd.name as name, u.username as manufacturer_name, c.name as country, z.name as zone, ce.name as cec, DATE(p.date_added) as date_added, price from oc_product p, oc_product_description pd, oc_user u, oc_country c, oc_zone z, oc_csc_detail ce where user_group_id = 11 and p.product_id = pd.product_id and p.user_id=u.user_id and z.zone_id=u.zone_id and c.country_id=u.country_id and ce.csc_id=u.csc_id";
-		
-		$sql .= "  ORDER BY DATE(p.date_added) DESC ";
-		
-		$query = $this->db->query($sql);
-		
-		return $query->rows;
-	}
-	
-	public function getNearExpiryProducts()
-	{
-		$sql= "SELECT pd.name as name, u.username as manufacturer_name, DATE(p.date_added) as date_added, DATE(p.date_expiry) as date_expiry, price from oc_product p, oc_product_description pd, oc_user u where user_group_id = 11 and p.product_id = pd.product_id and p.user_id=u.user_id";
-		$query = $this->db->query($sql);
-		
 		return $query->rows;
 	}
 }

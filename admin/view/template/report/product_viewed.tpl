@@ -21,8 +21,7 @@ header('Location: view/template/report/productsViewed.php');
     <div class="heading">
       <h1><img src="view/image/report.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons"><a href="<?php echo $reset; ?>" class="button"><?php echo $button_reset; ?></a>
-		<a href="<?php echo $createpdf?>" class="button"><?php echo "Export to PDF";?></a>
-      </div>     
+      <a href="view/template/report/productsViewed.php" class="button"><?php echo "Export to PDF"; ?></a> </div>     
      
     </div>
     <div class="content">

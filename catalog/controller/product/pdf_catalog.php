@@ -40,53 +40,87 @@ class ControllerProductPdfcatalog extends Controller {
             $this->createPdf($categories);
             
         } elseif ($this->request->get['category_id'] != "0") {
-        	
-           	$cat_id = $this->request->get['category_id'];
-			$parent_id = $this->model_catalog_pdf_catalog->getCategoryParentID($cat_id);
-			//var_dump($parent_id);
-     		if($parent_id == 0)
-     		{
-     			$categories = $this->model_catalog_pdf_catalog->getCategories($cat_id);
-     			
-     			foreach ($categories as $key => $category) {
-     				$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-     				if (!empty($products)) {
-     					foreach ($products as $key2 => $product) {
-     						$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-     						if ($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) > 1) {
-     							$products[$key2]['description'] = $product['description'];
-     						}//end of if
-     					}//end of foreach
-     				}//end of if
-     				$categories[$key]['products'] = $products;
-     			}//end of foreach
-     			//var_dump($categories);
-     			$this->createPdf($categories);
-     		}
-        	else {	
-        		//$categoriess = array();			
-        		$category= $this->model_catalog_pdf_catalog->getCategory($cat_id);
-        		if (isset($cat_id)) {
-                	$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($cat_id, $data);
-
-                	if (!empty($products)) {
-                   		foreach ($products as $key2 => $product) {
-                       		$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-                       		if ($this->config->get('pdf_catalog_display_description') == "1")
-                       			$products[$key2]['description'] = $product['description'];
-                    	}
-                	}
-                	
-                	$category[0]['products'] = $products;        
-            	}
-            	//var_dump($category);
-                $this->createPdf( $category);
-                
-            }
+            $category = $this->model_catalog_pdf_catalog->getCategory($this->request->get['category_id']);
+			$parent_id = $this->model_catalog_pdf_catalog->getCategoryParentID($this->request->get['category_id']);
             
+            if($parent_id != "0"){
+            	if (isset($category['category_id'])) {
+            		$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+            	
+            		if (!empty($products)) {
+            			foreach ($products as $key2 => $product) {
+            				$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+            				if ($this->config->get('pdf_catalog_display_description') == "1")
+            					$products[$key2]['description'] = $product['description'];
+            			}//end of foreach
+            		}//end of if
+            		
+            		$category['products'] = $products;
+            		$main_category = $category;
+            	}
+            }
+            else {
+				$categories = $this->model_catalog_pdf_catalog->getCategories($this->request->get['category_id']);
+			
+				if (count($categories) > 0) {
+
+					$data = array(
+	                	'status' => 1, 
+	                	'sort' => 'pd.name',
+	                	'limit' => $limit
+	           		 );         
+            
+	            foreach ($categories as $key => $category) {
+	            	$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+	                if (!empty($products)) {
+	                	foreach ($products as $key2 => $product) {
+	                    	$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+	                        if ($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) > 1) {
+	                        	$products[$key2]['description'] = $product['description'];
+	                      	}
+	                    }
+	                }
+	                $categories[$key]['products'] = $products;
+	            }
+ 
+				$categories=array_merge($main_category,$categories);
+
+				$totalproducts=0;
+				foreach($categories as $k=>$categori){
+					$totalproducts=$totalproducts + count($categori['products']);
+					$productsizes[$k]=count($categori['products']);
+				}
+
+				while($totalproducts > $limit){
+					$categories=$this->removeProduct($categories,$productsizes);
+					$totalproducts-- ;
+					foreach($categories as $k=>$categori){
+						$productsizes[$k]=count($categori['products']);
+					}
+	
+				}
+
+           	 	$this->createPdf($categories);
+            	} else {
+				  	if (isset($category['category_id'])) {
+                		$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+
+                		if (!empty($products)) {
+                    		foreach ($products as $key2 => $product) {
+                        		$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+                        		if ($this->config->get('pdf_catalog_display_description') == "1")
+                           			$products[$key2]['description'] = $product['description'];
+                    		}
+                		}
+                		$category['products'] = $products;        
+            		}
+                	$this->createPdf(array(0 => $category));
+            	}
+            }
         }
-  }
-    
+    }
+
+
 public function removeProduct($categories,$sizes) {
 
 	$flipped=array_flip($sizes);

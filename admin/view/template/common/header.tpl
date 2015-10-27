@@ -175,19 +175,27 @@ $(document).ready(function(){
           </li>
 	  <?php }?>
           
-      <?php if(!empty($hide) && in_array('filter',$hide)){?>
+
+	  
+
+           <?php if(!empty($hide) && in_array('filter',$hide)){?>
 	  <div style="display:none;"><li><a href="<?php echo $filter; ?>"><?php echo $text_filter; ?></a></li></div>
 	   <?php } else { ?>  
 	   <li><a href="<?php echo $filter; ?>"><?php echo $text_filter; ?></a></li>
           <?php }?>
 
-       <?php if(!empty($hide) && in_array('profile',$hide)){?>
+
+
+
+          <?php if(!empty($hide) && in_array('profile',$hide)){?>
 	  <div style="display:none;"><li><a href="<?php echo $profile; ?>"><?php echo $text_profile; ?></a></li></div>
 	  <?php } else { ?> 
           <li><a href="<?php echo $profile; ?>"><?php echo $text_profile; ?></a></li>
 	  <?php }?>
 
-      <?php if(isset($hide) && in_array('option',$hide)){?>
+
+
+          <?php if(isset($hide) && in_array('option',$hide)){?>
 	  <div style="display:none;"><li><a href="<?php echo $option; ?>"><?php echo $text_option; ?></a></li></div>
           <?php } else { ?>   
 	  <li><a href="<?php echo $option; ?>"><?php echo $text_option; ?></a></li>
@@ -209,13 +217,13 @@ $(document).ready(function(){
 	  <div style="display:none;"> <li><a href="<?php echo $review; ?>"><?php echo $text_review; ?></a></li></div>
           <?php } else { ?>
 	    <li><a href="<?php echo $review; ?>"><?php echo $text_review; ?></a></li>
-	  <?php }?>-->
+	  <?php }?>
           
           <?php if(isset($hide) && in_array('information',$hide)){?>
 	  <div style="display:none;"><li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li></div>
           <?php } else { ?>
 	    <li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li>
-	  <?php }?> 
+	  <?php }?> -->
          
         </ul>
       </li>

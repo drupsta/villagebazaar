@@ -143,7 +143,6 @@ $_SESSION['userid']=$this->user->getId();
 	}
 	
 	public function editProduct($product_id, $data) {
-		var_dump($data);
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "',producer = '" . $this->db->escape($data['producer']) . "',quantity = '" . (int)$data['quantity'] . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "',price = '" . (float)$data['price'] . "',price_duration_id = '" . (int)$data['price_duration_id'] . "',tax = '" . (float)$data['tax'] . "',status = '1', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
 
 		if (isset($data['image'])) {
@@ -232,16 +231,14 @@ $_SESSION['userid']=$this->user->getId();
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_download SET product_id = '" . (int)$product_id . "', download_id = '" . (int)$download_id . "'");
 			}
 		}
-		//edited by Tandin
 		
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "'");
 		
-			if (isset($data['product_category'])) {
-				foreach ($data['product_category'] as $category_id) {
-					$this->db->query("UPDATE " . DB_PREFIX . "product_to_category SET category_id = '" . (int)$category_id . "' WHERE product_id = '" . (int)$product_id . "'");
-				}		
-			}
-	
-		//end
+		if (isset($data['product_category'])) {
+			foreach ($data['product_category'] as $category_id) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "'");
+			}		
+		}
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_filter WHERE product_id = '" . (int)$product_id . "'");
 		
@@ -815,12 +812,11 @@ $_SESSION['userid']=$this->user->getId();
 		}
 		public function getCidFromProductId($product_id)
 		 {
-		 	//var_dump($product_id);
-			$sql ="SELECT category_id AS cid FROM  " . DB_PREFIX . "product_to_category WHERE product_id =".$product_id;
+			 $sql ="SELECT * FROM  " . DB_PREFIX . "product_to_category WHERE product_id =".$product_id;
 			$query = $this->db->query($sql);
-			return $query->row['cid'];
+			return $query->row['category_id'];
 		 }
-		public function getCondition($product_id)
+		  public function getCondition($product_id)
 		 {
 			 $sql ="SELECT product_type as product_type FROM  " . DB_PREFIX . "product WHERE product_id =".$product_id;
 			$query = $this->db->query($sql);

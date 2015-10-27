@@ -28,7 +28,7 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->template = 'default/template/module/pdf_catalog.tpl';
 		}
-		//var_dump($categories);
+		//var_dump($this);
 		$this->render(); 
 	}
 }

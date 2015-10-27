@@ -18,7 +18,7 @@ $_['text_percent']           = 'Percentage';
 $_['text_amount']            = 'Fixed Amount';
 //$_['text_logged']            = 'You are logged in as <span>%s</span>';
 $_['text_logged']            = '%s';
-$_['text_select']			= 'Please Select';
+
 // Column
 $_['column_name']            = 'Product Name';
 $_['column_model']           = 'Model';

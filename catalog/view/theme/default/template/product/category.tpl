@@ -7,12 +7,12 @@
   </div>
   <h1><?php echo $heading_title; ?></h1>
   <?php if ($thumb || $description) { ?>
-  <div class="category-info">
-    <?php if ($thumb) { ?>
-    <div class="image"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" /></div>
-    <?php } ?>
+  	<div class="category-info">
+    	<?php if ($thumb) { ?>
+    		<div class="image"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" /></div>
+   		<?php } ?>
     <?php if ($description) { ?>
-    <?php echo $description; ?>
+    		<?php echo $description; ?>
     <?php } ?>
   </div>
   <?php } ?>
@@ -22,7 +22,7 @@
     <?php if (count($categories) <= 5) { ?>
     <ul>
       <?php foreach ($categories as $category) { ?>
-      <li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>
+      	<li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>
       <?php } ?>
     </ul>
     <?php } else { ?>
@@ -30,31 +30,27 @@
     <ul>
       <?php $j = $i + ceil(count($categories) / 4); ?>
       <?php for (; $i < $j; $i++) { ?>
-      <?php if (isset($categories[$i])) { ?>
-      <li><a href="<?php echo $categories[$i]['href']; ?>"><?php echo $categories[$i]['name']; ?></a></li>
-      <?php } ?>
+      	<?php if (isset($categories[$i])) { ?>
+     	 <li><a href="<?php echo $categories[$i]['href']; ?>"><?php echo $categories[$i]['name']; ?></a></li>
+     	 <?php } ?>
       <?php } ?>
     </ul>
     <?php } ?>
-    <?php } ?>
+  <?php } ?>
   </div>
   <?php } ?>
   <?php if ($products) { ?>
  
   <div class="product-filter">
-    
-    <div class="display"><b><?php echo $text_display; ?></b> <?php echo $text_list; ?> <b>/</b> <a onclick="display('grid');"><?php echo $text_grid; ?></a></div>
+  <div class="display"><b><?php echo $text_display; ?></b> <?php echo $text_list; ?> <b>/</b> <a onclick="display('grid');"><?php echo $text_grid; ?></a></div>
+  <div class="location"> <b>   <?php echo $entry_location; ?></b>
+	<?php $city=null; ?>
 
-  
-   <div class="location"> <b>   <?php echo $entry_location; ?></b>
-<?php $city=null; ?>
-
-    <select onchange="location = this.value;">
-         
-              <?php foreach ($locations as $locations) { ?>
-              <?php  
+  <select onchange="location = this.value;">         
+  <?php foreach ($locations as $locations) { ?>
+       <?php  
               $loc=$_SERVER['QUERY_STRING'];
-              $pos=strrpos($loc,'=');
+			  $pos=strrpos($loc,'=');
               $x=substr($loc,$pos+1); 
               // $x=substr($_SERVER['QUERY_STRING'],-1,1);
             // $location = $_GET['x'];
@@ -100,7 +96,7 @@
         
         <?php foreach ($product_types as $product_types) { ?>
         
-        <?php if ($product_types['value'] == $_GET['product_type']) { ?>
+        <?php if ($product_types['value'] == $product_type) { ?>
         <option value="<?php echo $product_types['href'] ; ?>" selected="selected"><?php echo $product_types['value']; ?></option>
         <?php } else { ?>
         <option value="<?php echo $product_types['href']; ?>"><?php echo $product_types['value']; ?></option>
@@ -108,16 +104,20 @@
         <?php } ?>
       </select>
     </div>
+
     <?php $testDis=null;
     if (isset($_POST['submit'])){
- $testDis= $_POST['distance1'];
-  $_SESSION['distance_val']= $testDis;} ?>
-  
-   <form name ='f1' method='post' action ="<?php echo $action; ?>" >   <div class="location"> <b>   <?php  echo " Search Sellers within the distance of: "; ?></b>
-           <input type="text" name="distance1" maxlength="4" size="4"  value="<?php echo  $testDis;?>" > <b><?php echo "Km"; ?></b> 
-        
-        <input type="submit" name='submit'   value='Enter'> 
-        </div>  </form> 
+ 		$testDis= $_POST['distance1'];
+ 		$_SESSION['distance_val']= $testDis;
+	}
+	
+	 ?>
+  	
+   	<form name ='f1' method='post' action ="<?php echo $action; ?>" >   <div class="location"> <b>   <?php  echo " Search Sellers within the distance of: "; ?></b>
+   		<input type="text" name="distance1" maxlength="4" size="4"  value="<?php echo  $testDis;?>" > <b><?php echo "Km"; ?></b> 
+   		<input type="submit" name='submit'   value='Enter'> 
+        </div>  
+	</form> 
   </div>
   <?php  $counter=0; 
      $test1=array();
@@ -126,92 +126,89 @@
       
   if (isset($_POST['submit']) && ($testDis>=0)){ ?>
       <div><br> <h2>Products meeting the search criteria</h2> </div>
- <?php foreach ($products as $product) { 
+ 	<?php foreach ($products as $product) { 
            
-      if ($product['sellercity']){ 
-            if($city!=null) {
+      if ($product['selleraddress']){ 
+      	if($city!=null) {
           $address=$city; 
           $counter=$counter+1;
-          }
-         else {
-      
-         $address="Phuentsholing";
-        $counter=$counter+1;
+        }else {
+      		$address="Phuentsholing";
+        	$counter=$counter+1;
         } 
-     $address = str_replace(' ', '+', $address);
-     $url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&sensor=false';
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	$geoloc = curl_exec($ch);
-	$json = json_decode($geoloc);
-        $start = array($json->results[0]->geometry->location->lat, $json->results[0]->geometry->location->lng);
+    	$address = str_replace(' ', '+', $address);
+    	$url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&sensor=false';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$geoloc = curl_exec($ch);
+		$json = json_decode($geoloc);
+    	$start = array($json->results[0]->geometry->location->lat, $json->results[0]->geometry->location->lng);
         
-        $address1= $product['sellercity'];
-        $address1 = str_replace(' ', '+', $address1);
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$address1.'&sensor=false';
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	$geoloc = curl_exec($ch);
-	$json = json_decode($geoloc);
-        $finish = array($json->results[0]->geometry->location->lat, $json->results[0]->geometry->location->lng);
+    	$address1= $product['selleraddress'];
+    	$address1 = str_replace(' ', '+', $address1);
+   	 	$url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$address1.'&sensor=false';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$geoloc = curl_exec($ch);
+		$json = json_decode($geoloc);
+   	 	$finish = array($json->results[0]->geometry->location->lat, $json->results[0]->geometry->location->lng);
          	       
-        $theta = $start[1] - $finish[1]; 
-	$distance = (sin(deg2rad($start[0])) * sin(deg2rad($finish[0]))) + (cos(deg2rad($start[0])) * cos(deg2rad($finish[0])) * cos(deg2rad($theta))); 
-	$distance = acos($distance); 
-	$distance = rad2deg($distance); 
-	$distance = $distance * 60 * 1.1515 * 1.609344 ;
-        $distance = round($distance, 2);
-        $test1=array(
-    'product_id' => $product['product_id'],
-    'name'  =>  $product['name'],
-    'selleraddress' => $product['selleraddress'],
-    'state' => $product['state'],
-    'country' => $product['country'],
-    'description' => $product['description'],
-    'href' => $product['href'],
-    'distance' => $distance,
-    'thumb' => $product['thumb'],
-    'price' => $product['price'],
-    'address' => $address
-    ); 
-    $searchByDistance[$counter] = $test1;
+    	$theta = $start[1] - $finish[1]; 
+		$distance = (sin(deg2rad($start[0])) * sin(deg2rad($finish[0]))) + (cos(deg2rad($start[0])) * cos(deg2rad($finish[0])) * cos(deg2rad($theta))); 
+		$distance = acos($distance); 
+		$distance = rad2deg($distance); 
+		$distance = $distance * 60 * 1.1515 * 1.609344 ;
+    	$distance = round($distance, 2);
+    	$test1=array(
+    			'product_id' => $product['product_id'],
+    			'name'  =>  $product['name'],
+    			'selleraddress' => $product['selleraddress'],
+    			'state' => $product['state'],
+    			'country' => $product['country'],
+    			'description' => $product['description'],
+    			'href' => $product['href'],
+    			'distance' => $distance,
+    			'thumb' => $product['thumb'],
+    			'price' => $product['price'],
+    			'address' => $address
+    			); 
+   		 $searchByDistance[$counter] = $test1;
+     	}  
      }  
-     }  
-$checkResult=0;
-     foreach ($searchByDistance as $search) {
+	$checkResult=0;
+    foreach ($searchByDistance as $search) {
          if ($search['distance'] < $testDis) { $checkResult=1;
       ?>
     
-    <div class="product-list">
-   
-   <div>
-   <div class="rating"><b><?php echo "Seller's Address: ".$search['selleraddress']." ".$search['state']." ".$search['country']; echo "<br>Distance from ". $search['address'] ." is ".$search['distance']." km" ?></b> </div>
+   	 	<div class="product-list">
+   		<div>
+   			<div class="rating"><b><?php echo "Seller's Address: ".$search['selleraddress']." ".$search['state']." ".$search['country']; echo "<br>Distance from ". $search['address'] ." is ".$search['distance']." km" ?></b> </div>
      
-     <?php if ($search['thumb']) { ?>
-      <div class="image"><a href="<?php echo $search['href']; ?>"><img src="<?php echo $search['thumb']; ?>" title="<?php echo $search['name']; ?>" alt="<?php echo $search['name']; ?>" /></a></div>
-      <?php } ?> 
-      <div class="name"><a href="<?php echo $search['href']; ?>"><?php echo $search['name']; ?></a></div>
+     		<?php if ($search['thumb']) { ?>
+      			<div class="image"><a href="<?php echo $search['href']; ?>"><img src="<?php echo $search['thumb']; ?>" title="<?php echo $search['name']; ?>" alt="<?php echo $search['name']; ?>" /></a></div>
+     		 <?php } ?> 
+      		<div class="name"><a href="<?php echo $search['href']; ?>"><?php echo $search['name']; ?></a></div>
        
-   <?php if ($search['price']) { ?>
-      <div class="price">
-      <?php if (!$product['special']) { ?> 
-        <?php echo $search['price']; ?>
-       <?php } else { ?>
-        <span class="price-old"><?php echo $search['price']; ?></span> <span class="price-new"><?php echo $product['special']; ?></span> 
-        <?php } ?> 
-       </div>
+   			<?php if ($search['price']) { ?>
+      		<div class="price">
+      			<?php if (!$product['special']) { ?> 
+        			<?php echo $search['price']; ?>
+       			<?php } else { ?>
+        		<span class="price-old"><?php echo $search['price']; ?></span> <span class="price-new"><?php echo $product['special']; ?></span> 
+        		<?php } ?> 
+       		</div>
      
-      <div class="description"><?php   echo $search['description'];  ?></div>
+      		<div class="description"><?php   echo $search['description'];  ?></div>
      
       
-     <!--   <?php if ($product['tax']) { ?>
-        <br />
-        <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
-        <?php } ?> -->
+     <!--   	<?php if ($product['tax']) { ?>
+        			<br />
+        		<span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
+        		<?php } ?> -->
       
-      <?php } ?>
+      		<?php } ?>
       <?php if ($product['rating']) { ?>
       <div class="rating"><img src="catalog/view/theme/default/image/stars-<?php echo $product['rating']; ?>.png" alt="<?php echo $product['reviews']; ?>" /></div>
       <?php } ?>
@@ -227,7 +224,7 @@ $checkResult=0;
        	<!--  <a onclick="addToCompare('<?php echo $product['product_id']; ?>');"><?php echo $button_compare; ?></a>-->
 	  </div>
     </div>
-  <!--  <div class="rating1"><?php  if($test1!=null) {print_r($test1);} else echo "testhjkhjkhjhj";   ?></div> -->
+<div class="rating1"><?php  if($test1!=null) {print_r($test1);} else echo "testhjkhjkhjhj";   ?></div> 
     <?php  ?>
    </div> 
  
@@ -245,12 +242,12 @@ $checkResult=0;
      if ($product['selleraddress'])   { ?>
       <div class="rating"><?php echo "Seller's Address: ".$product['selleraddress']." ".$product['state']." ".$product['country'];  
          
-          if($city!=null) {
+     if($city!=null) {
           $address=$city; 
           $counter=$counter+1;
           }
          else {
-        $address="Kolkata";
+        $address="Phuentsholing";
         $counter=$counter+1;
         } 
      $address = str_replace(' ', '+', $address);
@@ -265,7 +262,7 @@ if ($geoloc!='') {
 
         $start = array($json->results[0]->geometry->location->lat, $json->results[0]->geometry->location->lng);
         
-        $address1= $product['sellercity'];
+        $address1= $product['selleraddress'];
         $address1 = str_replace(' ', '+', $address1);
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$address1.'&sensor=false';
 	$ch = curl_init();

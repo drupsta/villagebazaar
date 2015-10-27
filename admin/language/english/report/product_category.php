@@ -27,5 +27,5 @@ $_['entry_country']      = 'Country:';
 $_['entry_zone']         = 'State: '; 
 $_['entry_geo_zone']     = 'City: '; 
 $_['entry_cec']   		 = 'CEC Address:';
-$_['error_category']          = 'Catalog does not exist!';
+
 ?>

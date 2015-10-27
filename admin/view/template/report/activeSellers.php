@@ -69,7 +69,7 @@ $pdf->Ln(10);
 $pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 $tbl_header = '<table border="1">';
 $tbl_footer = '</table>';
-$tbl ='<tr><td align="center">Product Name</td><td  align="center">Seller Name</td><td  align="center">Dzongkhag</td><td  align="center">CEC Address</td><td  align="center">Date Added</td><td  align="center">Price</td></tr>';
+$tbl ='<tr><td align="center">Seller Name</td><td  align="center">State</td><td  align="center">CEC Address</td><td  align="center">No. of Products</td></tr>';;
 
 
 $query= "select username as name, count(*) as cnt,z.name as zone, ce.name as cec, DATE(p.date_added) as date_added from oc_user u, oc_zone z, oc_product p, oc_csc_detail ce where p.user_id=u.user_id and z.zone_id=u.zone_id and ce.csc_id=u.csc_id";

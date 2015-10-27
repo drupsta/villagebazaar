@@ -22,7 +22,12 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 		$this->data['logged'] = sprintf($this->language->get('text_logged'), $this->user->getId());
 		$_SESSION['userid']=$this->user->getId();
-					
+		//Added by Manoj
+		
+        ///$this->data['c_category']=$this->model_catalog_product->get_ccategory(); 
+			 
+		//$this->data['manoj']=$this->model_catalog_product->get_subcategory(20);
+			
         if(!isset($_POST['refresh']) && !isset($_POST['logout']) && !isset($_POST['home']))
         {
 			if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
@@ -1552,14 +1557,14 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 		
 		$this->model_catalog_product->getPriceDuration($this->request->post['price_duration_id']);
-		if ($this->request->post['price_duration_id'] == '') {
+			if ($this->request->post['price_duration_id'] == '') {
       		$this->error['duration'] = $this->language->get('error_duration');
     	}
 		
 		if (($this->request->post['price'] == '') ||!preg_match('/^(?:0|[1-9]\d*)(?:\.\d{2})?$/', $this->request->post['price'])) {
       		$this->error['price'] = $this->language->get('error_price');
 		}
-		
+                
          if ($this->request->post['sel_category'] == '') {
       		$this->error['sel_category'] = $this->language->get('error_category');
     	}
@@ -1819,6 +1824,6 @@ class ControllerCatalogProduct extends Controller {
 		$this->response->setOutput($output);		
 		
 	}
-	    
+    
 }
 ?>

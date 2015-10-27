@@ -1,3 +1,58 @@
+<?php
+if(isset($_POST['cmdPrint']))
+{
+session_start();
+$_SESSION['sel_category']=$_POST['sel_category'];
+$_SESSION['product_category']=$_POST['product_category'];
+
+header('Location: view/template/report/productCategory.php');
+}
+?>
+
+
+<?php
+$category_id;
+$sub_category;
+$qry_subcat;
+
+//mysql_connect("localhost","root","");
+//mysql_select_db("villagebazaar");
+if(isset($_POST['sel_category']))
+{
+$category_id=$_POST['sel_category'];
+}
+if(isset($_GET['sel_category']))
+{
+$category_id=$_GET['sel_category'];
+}
+if(isset($_GET['product_category']))
+{ 
+$sub_category=$_GET['product_category'];
+$qry_subcat ="SELECT name, c.category_id  as category_id FROM oc_category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id=$category_id";
+}
+if(isset($_POST['product_category']))
+{
+$sub_category=$_POST['product_category'];
+//$_SESSION['product_category']=$_POST['product_category'];
+$qry_subcat ="SELECT name, c.category_id  as category_id FROM oc_category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id=$category_id";
+//$_SESSION['sel_category']=$_POST['sel_category'];
+}
+
+if(isset($_POST['show']))
+{
+$category_id;
+//$sub_category=$_POST['product_category'];
+$qry_subcat ="SELECT name, c.category_id  as category_id FROM oc_category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id=$category_id";
+}
+
+//if(isset($_POST['enter']))
+//{
+//$category_id=$_POST['sel_category'];
+//$sub_category=$_POST['product_category'];
+//$qry_subcat ="SELECT name, c.category_id  as category_id FROM oc_category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id=$category_id";
+//}
+?>
+
 
 <?php echo $header; ?>
 <div id="content">
@@ -16,38 +71,58 @@
           <tr>
           <td><span class="required">*</span> <?php echo "Select Category"; ?></td>
           <td><select name="sel_category" id="sel_category">
-              	<option value="*" ><?php echo $text_select;?></option>
-              		<?php foreach ($c_category as $result) { ?>
-                   		<?php if ($result['category_id'] == $filter_parent_id) { ?>
-                    		<option value="<?php echo $result['category_id']; ?>" selected="selected"><?php echo $result['name']; ?></option>
-                    	<?php } else { ?>
-                   			 <option value="<?php echo $result['category_id']; ?>"><?php echo $result['name']; ?></option>
-                   			<?php } ?>
-                  	<?php } ?>
-            			</select>
-                  
+              <option value=""><?php echo $text_select; ?></option>
+              <?php
+						$qry="SELECT name, c.category_id FROM oc_category_description cd ,oc_category c where cd.`category_id`=c.`category_id` and parent_id=0 and status=1 order by name";
+						$rs = mysql_query($qry);
+						while($row=mysql_fetch_array($rs))
+						{
+						if(($category_id==$row[1]) || ($sel_category==$row[1]) )
+						{
+						echo "<option value='$row[1]' selected>$row[0]</option>";
+						}
+						else
+						{
+						echo "<option value='$row[1]' >$row[0]</option>";
+						}
+						}		
+						?>
+            </select>
+              <!--<input align="left" type="submit" name="show" value="Show Subcategory" class="button" />-->
                      </td>
            </tr>
         
         <tr>
           <td><span class="required">*</span> <?php echo "Select Subcategory"; ?></td>
-          <td>
-				<select name="product_category" id="product_category">
-              			<option value="*" ><?php if(isset($this->request->get['product_id']))
-                        						{		
-                                            		echo $update_subcategory;                                      			
-                                                     
-                                           		 }                                             
-                                            	else
-                                            	{
-                                            		echo $text_select;
-                                            	}
-                                            
-                                            ?></option></select>
+          <td><select name="product_category" id="product_category">
+             <option value=""><?php echo "---Please Select---"; ?></option>
+          <?php				
+						$rs = mysql_query($qry_subcat);
+						while($row=mysql_fetch_array($rs))
+						{
+						if(($sub_category==$row[1]) || ($product_category==$row[1]))
+						
+                                               // if($_SESSION['product_category']==$row[1])
+						{
+						echo "<option value='$row[1]' selected>$row[0]</option>";
+						}
+						else
+						{
+						echo "<option value='$row[1]'>$row[0]</option>";
+						}
+						}		
+					
+		?>	
+            </select>     
     <!--<input align="left" type="submit" name="enter" value="Enter" class="button" />-->
                     </td>
         
-   <!--   <td><?php echo $entry_geo_zone; ?></td>
+          
+              
+            
+                      
+            
+         <!--   <td><?php echo $entry_geo_zone; ?></td>
           <td><select name="geo_zone_id" id="geo_zone_id">
           <option value=""><?php echo $text_select; ?></option>
             </select>
@@ -55,12 +130,12 @@
 
       
           <td style="text-align: right;"><a onclick="filter();"   class="button"><?php echo $button_filter; ?></a></td>
-  
-			<td style="text-align: right;">
-				<a onclick="convert();"   class="button"><?php echo "Export to PDF"; ?></a>
-				<!--<a href="<?php echo $createpdf?>" class="button"><?php echo "Export to PDF";?></a>-->
-			</td>
+  <!-- <td style="text-align: right;"><a onclick="fun_print();" class="button"><?php echo $button_download; ?></a></td>-->
+<td style="text-align: right;"><input type="submit" name="cmdPrint" value="Export to PDF" class="button" />
 
+<!--<a href="view/template/report/pdfCreation.php" class="button"><?php echo $button_download; ?></a></td> -->
+
+<!-- <td style="text-align: right;"><a onclick="$('#form').attr('action', '<?php echo $print_report ; ?>'); $('#form').attr('target', '_blank'); $('#form').submit();" class="button"><?php echo $button_download; ?></a></td> -->
         </tr>
       </table>
  
@@ -105,32 +180,21 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-
 function filter() {
-	   
+	
+   
     url = 'index.php?route=report/product_category&token=<?php echo $token; ?>';
-	var sel_category = $('#sel_category').attr('value');
+	var sel_category = $('select[name=\'sel_category\']').attr('value');
 	
 	if (sel_category) {
 		url += '&sel_category=' + encodeURIComponent(sel_category);
 	}
-	var product_category = $('#product_category').attr('value');
+	 var product_category = $('select[name=\'product_category\']').attr('value');
 	
 	if (product_category) {
 		url += '&product_category=' + encodeURIComponent(product_category);
 	}
    
-	location = url;
-	
-}
-
-function convert() {
-	url = 'index.php?route=report/product_category/createPDF&token=<?php echo $token; ?>';
-	
-	var product_category = $('#product_category').attr('value');
-	if (product_category) {
-		url += '&product_category=' + encodeURIComponent(product_category);
-	}   
 	location = url;
 }
 /*

@@ -13,8 +13,8 @@ $_['column_name']       = 'Product Name';
 $_['column_manufacturer']= 'Seller Name';
 $_['column_date_added'] = 'Date Added';
 $_['column_country']     = 'Country';
-$_['column_zone']        = 'Dzongkhag';
-$_['column_geo_zone']    = 'City/Town';
+$_['column_zone']        = 'State';
+$_['column_geo_zone']    = 'City';
 $_['column_cec']   		 = 'CEC Address';
 $_['column_price']   	 = 'Price';
 
@@ -24,8 +24,8 @@ $_['entry_date_end']    = 'Date End:';
 $_['entry_manufacturer_name']= 'Sellers:';
 $_['entry_status']      = 'Order Status:';
 $_['entry_country']      = 'Country:';
-$_['entry_zone']         = 'Dzongkhag: '; 
-$_['entry_geo_zone']     = 'City/Town: '; 
+$_['entry_zone']         = 'State: '; 
+$_['entry_geo_zone']     = 'City: '; 
 $_['entry_cec']   		 = 'CEC Address:';
 
 ?>

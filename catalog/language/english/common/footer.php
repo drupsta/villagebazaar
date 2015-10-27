@@ -14,5 +14,5 @@ $_['text_account']      = 'My Account';
 $_['text_order']        = 'Order History';
 $_['text_wishlist']     = 'Wish List';
 $_['text_newsletter']   = 'Newsletter';
-$_['text_powered']      = 'Village Bazaar &copy;All Rights Reserved.';
+$_['text_powered']      = 'Village Bazaar' . ' All Rights Reserved.';
 ?>

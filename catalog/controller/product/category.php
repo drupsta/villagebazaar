@@ -11,7 +11,10 @@ class ControllerProductCategory extends Controller {
                 
         $this->load->model('localisation/geo_zone'); 
                 
-//     
+//                if (($this->request->server['REQUEST_METHOD'] == 'GET')){
+//                    $this->redirect($this->url->link('product/category', 'path=' . $path . $url));
+//                }
+//                
 		$city_name = $this->model_localisation_geo_zone->getGeoZoneByName();   
 		//echo $city_name['geo_zone_id'];
            
@@ -111,7 +114,19 @@ class ControllerProductCategory extends Controller {
 		} else {
 			$category_id = 0;
 		}
+//                if (isset($this->request->get['location'])) {
+//				$url .= '&location=' . $this->request->get['location'];
+//                          			}
+	
+  
 
+//     if (isset($this->request->post['distance1'])){
+//  echo "helllo";}
+//  else {echo "testttttttt";}           
+                  
+//   if (($this->request->server['REQUEST_METHOD'] == 'POST')){
+//        
+//$this->redirect($this->url->link('product/category', 'path=' .  $this->request->get['path'] . $url));}
 		
 		$category_info = $this->model_catalog_category->getCategory($category_id);
 	
@@ -213,13 +228,13 @@ class ControllerProductCategory extends Controller {
 			}
 			
                         ///////////////////////////////////////////////////------------------------------
-            if (isset($this->request->get['location'])) {
+                       if (isset($this->request->get['location'])) {
 				$url .= '&location=' . $this->request->get['location'];
-            }
+                               			}
                         
-            if (isset($this->request->get['product_type'])) {
+                        if (isset($this->request->get['product_type'])) {
 				$url .= '&product_type=' . $this->request->get['product_type'];
-            } 
+                                         			} 
 			$this->data['categories'] = array();
 			
 			$results = $this->model_catalog_category->getCategories($category_id);
@@ -238,6 +253,9 @@ class ControllerProductCategory extends Controller {
 				);
 			}
 			
+
+			
+			
 			$this->data['products'] = array();
 			
 			$data = array(
@@ -255,7 +273,7 @@ class ControllerProductCategory extends Controller {
 			$results = $this->model_catalog_product->getProducts($data);
 			
 			foreach ($results as $result) {
-                         //print_r($results);
+                          //  print_r($results);
                            //  echo $result['state'];
 				if ($result['image']) {
 					$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
@@ -289,15 +307,9 @@ class ControllerProductCategory extends Controller {
                                 //Added by Astha
                 if ($result['selleraddress']) {
 				 $selleraddress = $result['selleraddress'];
-                                    //echo  $selleraddress; 
+                                    //  echo  $selleraddress; 
 				} else {
 					$selleraddress = false;
-				}
-				if ($result['city']) {
-					$sellercity = $result['city'];
-					//echo  $selleraddress;
-				} else {
-					$sellercity = false;
 				}
 				if ($result['product_type']) {
 				 $product_type = $result['product_type'];
@@ -327,8 +339,7 @@ class ControllerProductCategory extends Controller {
 					'tax'         => $tax,
 					'rating'      => $result['rating'],
                     'selleraddress' => $result['selleraddress'],
-				    'product_type' => $result['product_type'],
-					'sellercity' => $sellercity,
+                    'product_type' => $result['product_type'],
                     'state' => $result['state'],
                     'country'=> $result['country'],
 					'reviews'     => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
@@ -353,7 +364,12 @@ class ControllerProductCategory extends Controller {
                          } 
                                                
 			$this->data['sorts'] = array();
-
+			
+//			$this->data['sorts'][] = array(
+//				'text'  => $this->language->get('text_default'),
+//				'value' => 'p.sort_order-ASC',
+//				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.sort_order&order=ASC' . $url)
+//			);
 			
 			$this->data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_asc'),
@@ -379,7 +395,31 @@ class ControllerProductCategory extends Controller {
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.price&order=DESC' . $url)
 			); 
 			
+//			if ($this->config->get('config_review_status')) {
+//				$this->data['sorts'][] = array(
+//					'text'  => $this->language->get('text_rating_desc'),
+//					'value' => 'rating-DESC',
+//					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=rating&order=DESC' . $url)
+//				); 
+				
+//				$this->data['sorts'][] = array(
+//					'text'  => $this->language->get('text_rating_asc'),
+//					'value' => 'rating-ASC',
+//					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=rating&order=ASC' . $url)
+//				);
+//			}
+			
+//			$this->data['sorts'][] = array(
+//				'text'  => $this->language->get('text_model_asc'),
+//				'value' => 'p.model-ASC',
+//				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.model&order=ASC' . $url)
+//			);
 
+//			$this->data['sorts'][] = array(
+//				'text'  => $this->language->get('text_model_desc'),
+//				'value' => 'p.model-DESC',
+//				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.model&order=DESC' . $url)
+//			);
 			
 			$url = '';
 			
@@ -475,16 +515,19 @@ class ControllerProductCategory extends Controller {
                             //   echo "In limit";
 			}
                     //   $url = '';
-            $product_types = $this->model_catalog_product->getProductType1();
+                         $product_types = $this->model_catalog_product->getProductType1();
                         
                        
-        	foreach ($product_types as $product_types) {
-            	$this->data['product_types'][] = array(
-                              		'value' => $product_types['product_type'], 
-									'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] .$url.'&product_type=' . $product_types['product_type'] )
-			 					);
+                        foreach ($product_types as $product_types) {
+                        $this->data['product_types'][] = array(
+                           
+				//'name'  => $locations['name'],
+                            'value' => $product_types['product_type'], 
+			'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] .$url.'&product_type=' . $product_types['product_type'] )
+			 );
                        
-            }
+                  //     print_r($locations);
+                       }
                        $url = '';
                         if (isset($this->request->get['location'])) {
 				$url .= '&location=' . $this->request->get['location'];
@@ -573,12 +616,12 @@ class ControllerProductCategory extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 			//Added by Astha
-            if (isset($this->request->get['location'])) {
+                        if (isset($this->request->get['location'])) {
 				$url .= '&location=' . $this->request->get['location'];
-            }
-            if (isset($this->request->get['product_type'])) {
+                         			}
+                        if (isset($this->request->get['product_type'])) {
 				$url .= '&product_type=' . $this->request->get['product_type'];
-            }
+                        }
                                                 
 			$this->data['breadcrumbs'][] = array(
 				'text'      => $this->language->get('text_error'),

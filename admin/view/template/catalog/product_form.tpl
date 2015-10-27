@@ -66,9 +66,6 @@
                                             	}
                                             
                                             ?></option></select>
-						<?php if ($error_subcategory) { ?>
-              				<span class="error"><?php echo $error_subcategory; ?></span>
-              			<?php } ?>
        				</td>
         		</tr>		
         		

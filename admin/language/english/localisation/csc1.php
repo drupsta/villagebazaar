@@ -3,7 +3,7 @@
 $_['heading_title']      = 'CEC Details';
 
 // Text
-$_['text_success']       = 'Success: You have added/modified CEC Details!';
+$_['text_success']       = 'Success: You have modified CEC Details!';
 
 // Column
 $_['column_name']        = 'CEC Name';

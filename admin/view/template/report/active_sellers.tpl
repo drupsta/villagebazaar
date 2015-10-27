@@ -1,3 +1,16 @@
+<?php
+if(isset($_POST['cmdPrint']))
+{
+session_start();
+$_SESSION['filter_date_start']=$_POST['filter_date_start'];
+$_SESSION['filter_date_end']=$_POST['filter_date_end'];
+$_SESSION['filter_manufacturer_name']=$_POST['filter_manufacturer_name'];
+$_SESSION['filter_cec']=$_POST['filter_cec'];
+$_SESSION['filter_zone']=$_POST['filter_zone'];
+header('Location: view/template/report/activeSellers.php');
+}
+?>
+
 <?php echo $header; ?>
 <div id="content">
   <div class="breadcrumb">
@@ -146,7 +159,7 @@
         </tbody>
       </table>
   
-            <div style="text-align: right"> <a href="<?php echo $createpdf?>" class="button"><?php echo "Export to PDF";?></a></div>
+            <div style="text-align: right">  <input type="submit" name="cmdPrint" value="Export to PDF" class="button" /></div>
      
      </form>
   <!--  <div class="pagination" ><?php echo $pagination; ?></div> -->

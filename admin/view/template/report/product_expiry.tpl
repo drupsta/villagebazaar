@@ -1,5 +1,15 @@
-
-
+<?php
+if(isset($_POST['cmdPrint']))
+{
+session_start();
+//$_SESSION['filter_date_start']=$_POST['filter_date_start'];
+//$_SESSION['filter_date_end']=$_POST['filter_date_end'];
+$_SESSION['filter_manufacturer_name']=$_POST['filter_manufacturer_name'];
+$_SESSION['filter_week']=$_POST['filter_week'];
+//$_SESSION['filter_zone']=$_POST['filter_zone'];
+header('Location: view/template/report/productExpiry.php');
+}
+?>
 <?php echo $header; ?>
 <div id="content">
   <div class="breadcrumb">
@@ -119,7 +129,7 @@ foreach($curr_val as $cval=>$cval1)
 
       
           <td style="text-align: right;"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
-          <td style="text-align: right;"><a href="<?php echo $createpdf?>" class="button"><?php echo "Export to PDF";?></a></td>
+          <td style="text-align: right;"><input type="submit" name="cmdPrint" value="Export to PDF" class="button" />
     <!--   <td style="text-align: right;"><a onclick="fun_print();" class="button"><?php echo $button_download; ?></a></td>
           
   <td style="text-align: right;"><a onclick="$('#form').attr('action', '<?php echo $print_report ; ?>'); $('#form').attr('target', '_blank'); $('#form').submit();" class="button"><?php echo $button_download; ?></a></td> -->

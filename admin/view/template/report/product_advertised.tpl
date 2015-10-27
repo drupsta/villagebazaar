@@ -1,4 +1,15 @@
-
+<?php
+if(isset($_POST['cmdPrint']))
+{
+session_start();
+$_SESSION['filter_date_start']=$_POST['filter_date_start'];
+$_SESSION['filter_date_end']=$_POST['filter_date_end'];
+$_SESSION['filter_manufacturer_name']=$_POST['filter_manufacturer_name'];
+$_SESSION['filter_cec']=$_POST['filter_cec'];
+$_SESSION['filter_zone']=$_POST['filter_zone'];
+header('Location: view/template/report/productAdvertised.php');
+}
+?>
 
 <?php echo $header; ?>
 <div id="content">
@@ -19,9 +30,8 @@
             <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" /></td>
           <td><?php echo $entry_date_end; ?>
             <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
-           
-			<td><?php echo $entry_manufacturer_name; 
-             
+           <td><?php echo $entry_manufacturer_name; 
+               //print_r($manufacturers);
                ?>
               <select name="filter_manufacturer_name">
               <option value="0"><?php echo $text_all_manufacturers; ?></option>
@@ -33,7 +43,25 @@
               <?php } ?>
               <?php } ?>
             </select></td>
-                      
+            
+
+
+      <!--   <td><?php echo $entry_country;  ?></td>
+          <td><select name="filter_country" id="country_id">
+              <option value="0"><?php echo $text_select; ?></option>
+              <?php foreach ($countries as $country) { ?>
+              <?php if ($country['country_id'] == $filter_country) { ?>
+              <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select>
+  
+           <?php if ($error_country) { ?>
+            <span class="error"><?php echo $error_country; ?></span>
+            <?php } ?>   </td> -->
+          
         <td><?php echo $entry_zone; ?></td>
           <td><select name="filter_zone" id="zone_id"><option value=""><?php echo $text_select; ?></option>
             <?php foreach ($states as $state) { ?>
@@ -85,7 +113,12 @@
 
       
           <td style="text-align: right;"><a onclick="filter();"   class="button"><?php echo $button_filter; ?></a></td>
- 
+  <!-- <td style="text-align: right;"><a onclick="fun_print();" class="button"><?php echo $button_download; ?></a></td>-->
+<!--<td style="text-align: right;"><input type="submit" name="cmdPrint" value="Export to PDF" class="button" />-->
+
+<!--<a href="view/template/report/pdfCreation.php" class="button"><?php echo $button_download; ?></a></td> -->
+
+<!-- <td style="text-align: right;"><a onclick="$('#form').attr('action', '<?php echo $print_report ; ?>'); $('#form').attr('target', '_blank'); $('#form').submit();" class="button"><?php echo $button_download; ?></a></td> -->
         </tr>
       </table>
  
@@ -96,8 +129,10 @@
           <tr>
             <td class="left"><?php echo $column_name; ?></td>
             <td class="left"><?php echo $column_manufacturer; ?></td>
+         <!--   <td class="left"><?php echo $column_country; ?></td> -->
             <td class="center"><?php echo $column_zone; ?></td> 
              <td class="center"><?php echo $column_cec; ?></td> 
+           <!-- <td class="left"><?php echo $column_geo_zone; ?></td>-->
             <td class="right"><?php echo $column_date_added; ?></td>
             <td class="right"><?php echo $column_price; ?></td>
             
@@ -110,7 +145,8 @@
             <td class="left"><?php echo $product['name']; ?></td>
            
             <td class="left"><?php echo $product['manufacturer_name']; ?></td>
-    	   <td class="center"><?php echo $product['zone']; ?></td> 
+    	<!--  <td class="left"><?php echo $product['country']; ?></td>-->
+           <td class="center"><?php echo $product['zone']; ?></td> 
            <td class="center"><?php echo $product['cec']; ?></td> 
            <td class="right"><?php echo $product['date_added']; ?></td>
            <td class="right"><?php echo $product['price']; ?></td>        
@@ -127,7 +163,7 @@
         
         </tbody>
       </table>
- <div style="text-align: right"> <a href="<?php echo $createpdf?>" class="button"><?php echo "Export to PDF";?></a> </div>
+ <div style="text-align: right"> <input type="submit" name="cmdPrint" value="Export to PDF" class="button" />
       
      
      </form>

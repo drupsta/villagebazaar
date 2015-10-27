@@ -10,19 +10,12 @@ class ControllerReportProductCategory extends Controller {
 //		} else {
 //			$filter_date_start = '';
 //		}
-
-		if (isset($this->request->get['filter_category'])) {
-			$filter_category = $this->request->get['filter_category'];
-		} else {
-			$filter_category = null;
-		}
-		 
-        if (isset($this->request->get['product_category'])) {
+            if (isset($this->request->get['product_category'])) {
 			$product_category = $this->request->get['product_category'];
 		} else {
 			$product_category = '';
 		}
-        if (isset($this->request->get['sel_category'])) {
+                if (isset($this->request->get['sel_category'])) {
 			$sel_category = $this->request->get['sel_category'];
 		} else {
 			$sel_category = '';
@@ -104,19 +97,17 @@ class ControllerReportProductCategory extends Controller {
    		);		
 		
 		$this->load->model('report/product');
-		
                 //For printing report
 	//$this->data['print_report'] = $this->url->link('report/product_advertised/print_report', 'token=' . $this->session->data['token'], 'SSL');
 		$this->data['products'] = array();
-		$this->data['categories'] = array();
 		
 		$data = array(
 //			'filter_date_start'	     => $filter_date_start, 
 //			'filter_date_end'	     => $filter_date_end, 
 //            'filter_manufacturer_name'=> $filter_manufacturer_name,
 //			'filter_country'		 => $filter_country,
-             'product_category'=> $product_category,
-             'sel_category'=> $sel_category,
+                   'product_category'=> $product_category,
+                    'sel_category'=> $sel_category,
 //			'filter_zone'			 => $filter_zone,
 //			'filter_cec'			 => $filter_cec,
 			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
@@ -124,7 +115,7 @@ class ControllerReportProductCategory extends Controller {
 		);
 				
 		//$product_total = $this->model_report_product->getTotalPurchased($data);
-		
+
 		$results = $this->model_report_product->getproductscategories($data);
 		//print_r($results);
 		foreach ($results as $result) {
@@ -134,12 +125,7 @@ class ControllerReportProductCategory extends Controller {
 				'price'   => $result['price']
 			);
 		}
-		
-		$this->load->model('report/category');
-		$this->data['c_category']=$this->model_report_category->get_ccategory();
-	
-		$this->data['createpdf'] = $this->url->link('report/product_category/createPDF', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		
+				
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
@@ -166,7 +152,8 @@ class ControllerReportProductCategory extends Controller {
 		$this->data['text_none'] = $this->language->get('text_none');
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_cec'] = $this->language->get('entry_cec');
-		$this->data['error_category'] = $this->language->get('error_category');
+		
+
 		$this->data['button_filter'] = $this->language->get('button_filter');
                 // Button for download
 		$this->data['button_download'] = $this->language->get('button_download');
@@ -296,7 +283,7 @@ class ControllerReportProductCategory extends Controller {
 //		
 //	}
 	
-	public function getCity() {		
+		 public function getCity() {		
 		
 		$output = '<option value="0">' . $this->language->get('text_all_geo_zones') . '</option>';
 		
@@ -311,99 +298,6 @@ class ControllerReportProductCategory extends Controller {
 			$output .= '>' . $result['name'] . '</option>';
 		}
 		$this->response->setOutput($output);
-	}
-
-	public function createPDF()
-	{
-		$this->load->helper('tcpdf/config/tcpdf_config');
-		$this->load->helper('tcpdf/tcpdf');
-	
-	
-		// create new PDF document
-	
-		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		$author = $this->config->get('pdf_catalog_author');
-		$title = $this->config->get('pdf_catalog_title');
-		$subject = $this->config->get('pdf_catalog_subject');
-		$keywords = $this->config->get('pdf_catalog_description');
-	
-		// set document information
-		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor($author);
-		$pdf->SetTitle($title);
-		$pdf->SetSubject($subject);
-		$pdf->SetKeywords($keywords);
-	
-		// set header and footer fonts
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-		// set default monospaced font
-		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-	
-		// set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-	
-		// set auto page breaks
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-	
-		// set image scale factor
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-	
-		// set some language-dependent strings (optional)
-		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-			require_once(dirname(__FILE__).'/lang/eng.php');
-			$pdf->setLanguageArray($l);
-		}
-	
-		// ---------------------------------------------------------
-	
-		// set font
-		$pdf->SetFont('helvetica', 'B', 20);
-	
-		// add a page
-		$pdf->AddPage();
-	
-		$pdf->Write(0, 'Products Based on category Report', '', 0, 'C', true, 0, false, false, 0);
-		//$pdf->TextField('date', 120, 10, array(), array('v'=>date('Y-m-d'), 'dv'=>date('Y-m-d')));
-		//$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
-	
-	
-		$pdf->SetFont('helvetica', '', 10);
-	
-		$pdf->Cell(35, 5, 'Reported on date:');
-		$pdf->TextField('date', 30, 10, array(), array('v'=>date('d-m-Y'), 'dv'=>date('d-m-Y')));
-		$pdf->Ln(10);
-	
-	
-		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
-		$tbl_header = '<table border="1">';
-		$tbl_footer = '</table>';
-		$tbl ='<tr><td align="center">Product Name</td><td  align="center">Date Added</td><td  align="center">Price</td></tr>';
-		
-		//var_dump($product_category);
-		$this->load->model('report/product');
-		$results = $this->model_report_product->getProducts();
-		
-		foreach($results as $row){
-			$product=$row['name'];
-    		$date=$row['date_added'];
-    		$price=$row['price'];
-    		$tbl .= '<tr><td align="center">'.$product.'</td><td align="center">'.$date.'</td><td align="center">'.$price.'</td></tr>';
-		}
-	
-		$pdf->writeHTML($tbl_header . $tbl . $tbl_footer, true, false, false, false, '');
-		// NON-BREAKING ROWS (nobr="true")
-	
-		$pdf->lastPage();
-		$pdf->Output('SalesReport.pdf', 'I');
-	
-		/*
-		 * To change this template, choose Tools | Templates
-		 * and open the template in the editor.
-		*/
-	
-	}
+	}  
 }
 ?>

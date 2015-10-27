@@ -28,8 +28,8 @@ $_['entry_date_end']    = 'Date End:';
 $_['entry_manufacturer_name']= 'Sellers:';
 $_['entry_status']      = 'Order Status:';
 $_['entry_country']      = 'Country:';
-$_['entry_zone']         = 'Dzongkhag: '; 
-$_['entry_geo_zone']     = 'City/Town: '; 
+$_['entry_zone']         = 'State: '; 
+$_['entry_geo_zone']     = 'City: '; 
 $_['entry_cec']   		 = 'CEC Address:';
 
 ?>
